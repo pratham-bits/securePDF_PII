@@ -27,3 +27,8 @@ ml/models/
 # PDFs: only synthetic samples are allowed in the repo
 *.pdf
 !samples/**/*.pdf
+
+# local editor and type-checker config
+.vscode/
+pyrefly.toml
+pyrightconfig.json
