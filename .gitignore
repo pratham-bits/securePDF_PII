@@ -1,0 +1,29 @@
+# secrets and local config
+.env
+*.pem
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# node
+node_modules/
+dist/
+
+# runtime data: never commit uploads or outputs
+backend/storage/
+uploads/
+*.log
+
+# models and training artifacts
+ml/models/
+*.pt
+*.safetensors
+*.onnx
+*.ckpt
+
+# PDFs: only synthetic samples are allowed in the repo
+*.pdf
+!samples/**/*.pdf
