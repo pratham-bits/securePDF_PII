@@ -13,10 +13,21 @@ from app.models import Document, User
 from app.schemas.document import DocumentOut
 from app.services import storage
 from app.services.pdf_validation import InvalidPdf, validate_pdf
+from app.services.retention import HIDDEN_STATUSES, purge_document
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
-HIDDEN_STATUSES = ("deleted", "expired")
+
+def _owned_document(db: Session, user: User, document_id: str) -> Document:
+    document = db.get(Document, document_id)
+    # Someone else's document, a deleted one and a missing one all look the same.
+    if (
+        document is None
+        or document.user_id != user.id
+        or document.status in HIDDEN_STATUSES
+    ):
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
+    return document
 
 
 @router.post("", response_model=DocumentOut, status_code=status.HTTP_201_CREATED)
@@ -74,10 +85,13 @@ def get_document(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    document = db.get(Document, document_id)
-    # Someone else's document gets the same 404 as a missing one.
-    if document is None or document.user_id != user.id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
-    if document.status in HIDDEN_STATUSES:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
-    return document
+    return _owned_document(db, user, document_id)
+
+
+@router.delete("/{document_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_document(
+    document_id: str,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    purge_document(db, _owned_document(db, user, document_id), "deleted")

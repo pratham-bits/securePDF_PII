@@ -27,7 +27,8 @@ def db_session():
 
 
 @pytest.fixture()
-def client(db_session):
+def client(db_session, monkeypatch):
+    monkeypatch.setattr(settings, "retention_enabled", False)  # no purge loop in tests
     app.dependency_overrides[get_db] = lambda: db_session
     with TestClient(app) as test_client:
         yield test_client

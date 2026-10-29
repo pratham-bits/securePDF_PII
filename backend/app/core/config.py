@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     max_upload_mb: int = 20
     max_pages: int = 30
     retention_hours: int = 12
+    purge_interval_minutes: int = 10
+    orphan_grace_minutes: int = 60  # unreferenced files younger than this are left alone
+    retention_enabled: bool = True  # tests switch this off
 
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",
