@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import URL
 
 
-# Resolve the backend directory independently of the working directory.
+# Resolve the backend directory independently of the current working directory.
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 
 
@@ -14,13 +14,17 @@ class Settings(BaseSettings):
     environment: str = "development"
     cors_origins: list[str] = ["http://localhost:5173"]
 
-    # Database configuration loaded from environment variables / .env
+    # Database configuration
     db_host: str = "127.0.0.1"
     db_port: int = 3307
     db_user: str = "securepdf_app"
     db_password: str
     db_name: str = "securepdf"
-    db_charset: str = "utf8mb4"
+
+    # Authentication and session security
+    secret_key: str
+    access_token_minutes: int = 60
+    cookie_secure: bool = False  # Set to True when served over HTTPS.
 
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",
@@ -30,7 +34,6 @@ class Settings(BaseSettings):
 
     @property
     def database_url(self) -> URL:
-        # Safely handles special characters in the password.
         return URL.create(
             "mysql+pymysql",
             username=self.db_user,
@@ -38,7 +41,7 @@ class Settings(BaseSettings):
             host=self.db_host,
             port=self.db_port,
             database=self.db_name,
-            query={"charset": self.db_charset},
+            query={"charset": "utf8mb4"},
         )
 
 
