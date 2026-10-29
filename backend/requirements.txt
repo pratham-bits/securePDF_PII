@@ -7,3 +7,6 @@ pytesseract
 pillow
 pytest
 httpx
+
+SQLAlchemy>=2.0,<3.0
+PyMySQL[rsa]>=1.1,<2.0
