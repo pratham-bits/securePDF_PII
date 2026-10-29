@@ -1,0 +1,93 @@
+from dataclasses import dataclass
+from pathlib import Path
+
+import pymupdf
+
+from app.pipeline.extract import Word, extract_page_words
+from app.pipeline.locate import Box
+from app.pipeline.ocr import OCR_DPI, ocr_page, preprocess, render_page
+from app.pipeline.redact import verify_redaction
+
+MIN_TEXT_WORDS = 5  # fewer words than this on a page means "treat it as a scan"
+LEAK_OVERLAP = 0.5  # a word counts as a leak if this much of it lies inside a box
+
+
+@dataclass
+class Extraction:
+    words: list[Word]
+    modes: list[str]  # one entry per page: "digital" or "ocr"
+
+
+def extract_document(pdf_path: str | Path, lang: str = "eng") -> Extraction:
+    words: list[Word] = []
+    modes: list[str] = []
+    with pymupdf.open(pdf_path) as doc:
+        for number, page in enumerate(doc):
+            page_words = extract_page_words(page, number)
+            if len(page_words) >= MIN_TEXT_WORDS:
+                modes.append("digital")
+            else:
+                image = preprocess(render_page(page))
+                page_words = ocr_page(image, number, OCR_DPI, lang)
+                modes.append("ocr")
+            words.extend(page_words)
+    return Extraction(words, modes)
+
+
+def inside_fraction(word: Word, box: Box) -> float:
+    """Share of the word's area that lies inside the box (0 to 1)."""
+    ix = max(0.0, min(word.x1, box.x1) - max(word.x0, box.x0))
+    iy = max(0.0, min(word.y1, box.y1) - max(word.y0, box.y0))
+    area = (word.x1 - word.x0) * (word.y1 - word.y0)
+    return (ix * iy) / area if area > 0 else 0.0
+
+
+_inside_fraction = inside_fraction  # alias for backward compatibility
+
+
+def _ocr_leaks(path: str | Path, boxes: list[Box], lang: str) -> list[Box]:
+    """Re-OCR the saved file; a confident word inside a box means a leak."""
+    surviving: dict[int, list[Word]] = {}
+    with pymupdf.open(path) as doc:
+        for page_number in sorted({b.page for b in boxes}):
+            image = preprocess(render_page(doc[page_number]))
+            words = ocr_page(image, page_number, OCR_DPI, lang)
+            surviving[page_number] = [
+                w for w in words
+                if (w.conf or 0) >= 30 and any(c.isalnum() for c in w.text)
+            ]
+        return [
+            b for b in boxes
+            if any(inside_fraction(w, b) >= LEAK_OVERLAP for w in surviving.get(b.page, []))
+        ]
+
+
+def verify_output(
+    path: str | Path, boxes: list[Box], modes: list[str], lang: str = "eng"
+) -> list[Box]:
+    """Check the saved file: text check on digital pages, OCR check on scans."""
+    digital = [b for b in boxes if modes[b.page] == "digital"]
+    scanned = [b for b in boxes if modes[b.page] == "ocr"]
+    leaks = verify_redaction(path, digital)
+    if scanned:
+        leaks += _ocr_leaks(path, scanned, lang)
+    return leaks
+
+
+__all__ = [
+    "Extraction",
+    "extract_document",
+    "verify_output",
+    "inside_fraction",
+    "_inside_fraction",
+]
+
+
+
+__all__ = [
+    "Extraction",
+    "extract_document",
+    "verify_output",
+    "inside_fraction",
+    "_inside_fraction",
+]

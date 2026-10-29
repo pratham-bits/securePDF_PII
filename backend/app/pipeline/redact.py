@@ -5,6 +5,7 @@ import pymupdf
 from app.pipeline.locate import Box
 
 PAD = 1.0  # points of padding so glyph edges are fully covered
+PDF_REDACT_IMAGE_PIXELS = 2  # blank out overlapping image pixels (default in PyMuPDF)
 
 
 def redact_pdf(src: str | Path, dst: str | Path, boxes: list[Box]) -> None:
@@ -16,7 +17,7 @@ def redact_pdf(src: str | Path, dst: str | Path, boxes: list[Box]) -> None:
             )
             doc[box.page].add_redact_annot(rect, fill=(0, 0, 0))
         for page in doc:
-            page.apply_redactions()
+            page.apply_redactions(images=PDF_REDACT_IMAGE_PIXELS)
         doc.scrub()  # metadata, attachments, hidden text, javascript, thumbnails
         doc.save(dst, garbage=4, deflate=True)
 
