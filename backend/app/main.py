@@ -10,7 +10,7 @@ from app.api.health import router as health_router
 from app.core.config import settings
 from app.services.retention import retention_loop
 from app.services.analysis import run_recovery
-
+from app.api.findings import router as findings_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -38,3 +38,4 @@ app.add_middleware(
 app.include_router(health_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
 app.include_router(documents_router, prefix="/api")
+app.include_router(findings_router, prefix="/api")
