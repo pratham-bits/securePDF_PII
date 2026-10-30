@@ -1,7 +1,8 @@
 import logging
+import threading
 from dataclasses import asdict
 
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from app.models import Document, Finding
@@ -9,6 +10,8 @@ from app.pipeline.document import extract_document
 from app.pipeline.locate import find_pii
 from app.pipeline.policy import default_decision, tier_for
 from app.services import storage
+from app.core.config import settings
+from app.db.session import SessionLocal
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -70,3 +73,28 @@ def analyze_document(db: Session, document: Document) -> None:
         # The error type only: messages could contain document content.
         logger.error("analysis failed: %s", type(exc).__name__)
         _mark_failed(db, document_id)
+
+_slots = threading.BoundedSemaphore(settings.max_concurrent_analyses)
+
+
+def run_analysis(document_id: str) -> None:
+    """Background entry point: own database session, limited concurrency."""
+    with _slots, SessionLocal() as db:
+        document = db.get(Document, document_id)
+        if document is not None and document.status == "analyzing":
+            analyze_document(db, document)
+
+
+def recover_interrupted_analyses(db: Session) -> int:
+    """After a restart, jobs still marked "analyzing" will never finish."""
+    stuck = list(db.scalars(select(Document).where(Document.status == "analyzing")))
+    for document in stuck:
+        document.status = "failed"
+        document.error_code = "interrupted"
+    db.commit()
+    return len(stuck)
+
+
+def run_recovery() -> int:
+    with SessionLocal() as db:
+        return recover_interrupted_analyses(db)

@@ -11,6 +11,8 @@ from app.models import Document, Finding, User
 from app.services import storage
 from app.services.analysis import analyze_document
 from app.services.retention import purge_document
+from app.services import analysis as analysis_module
+from app.services.analysis import recover_interrupted_analyses, run_analysis
 
 SAMPLES = Path(__file__).resolve().parents[2] / "samples"
 
@@ -104,3 +106,23 @@ def test_purging_a_document_deletes_its_findings(db_session, user):
     assert _findings(db_session, document)
     purge_document(db_session, document, "deleted")
     assert _findings(db_session, document) == []
+
+def test_run_analysis_finishes_the_job_with_its_own_session(
+    db_session, user, monkeypatch
+):
+    document = _document(db_session, user)
+    document_id = document.id
+    monkeypatch.setattr(analysis_module, "SessionLocal", lambda: db_session)
+    run_analysis(document_id)
+    assert db_session.get(Document, document_id).status == "ready"
+
+
+def test_interrupted_analyses_are_marked_failed(db_session, user):
+    stuck = _document(db_session, user)
+    done = _document(db_session, user)
+    done.status = "ready"
+    db_session.commit()
+
+    assert recover_interrupted_analyses(db_session) == 1
+    assert stuck.status == "failed" and stuck.error_code == "interrupted"
+    assert done.status == "ready"

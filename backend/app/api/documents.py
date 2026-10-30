@@ -1,7 +1,7 @@
 import uuid
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, UploadFile, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,11 +9,13 @@ from app.api.deps import get_current_user
 from app.core.clock import utcnow
 from app.core.config import settings
 from app.db.session import get_db
-from app.models import Document, User
+from app.models import Document, User,Finding
 from app.schemas.document import DocumentOut
 from app.services import storage
 from app.services.pdf_validation import InvalidPdf, validate_pdf
 from app.services.retention import HIDDEN_STATUSES, purge_document
+from app.schemas.finding import FindingOut
+from app.services.analysis import run_analysis
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -95,3 +97,38 @@ def delete_document(
     db: Session = Depends(get_db),
 ):
     purge_document(db, _owned_document(db, user, document_id), "deleted")
+
+@router.post(
+    "/{document_id}/analyze",
+    response_model=DocumentOut,
+    status_code=status.HTTP_202_ACCEPTED,
+)
+def analyze(
+    document_id: str,
+    background_tasks: BackgroundTasks,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    document = _owned_document(db, user, document_id)
+    if document.status not in ("uploaded", "failed"):
+        raise HTTPException(status.HTTP_409_CONFLICT, f"Document is {document.status}")
+    document.status = "analyzing"
+    document.error_code = None
+    db.commit()
+    background_tasks.add_task(run_analysis, document.id)
+    return document
+
+
+@router.get("/{document_id}/findings", response_model=list[FindingOut])
+def list_findings(
+    document_id: str,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    document = _owned_document(db, user, document_id)
+    stmt = (
+        select(Finding)
+        .where(Finding.document_id == document.id)
+        .order_by(Finding.page, Finding.id)
+    )
+    return list(db.scalars(stmt))

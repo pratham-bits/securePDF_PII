@@ -9,11 +9,15 @@ from app.api.documents import router as documents_router
 from app.api.health import router as health_router
 from app.core.config import settings
 from app.services.retention import retention_loop
+from app.services.analysis import run_recovery
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    task = asyncio.create_task(retention_loop()) if settings.retention_enabled else None
+    task = None
+    if settings.retention_enabled:  # this flag gates all background jobs
+        await asyncio.to_thread(run_recovery)
+        task = asyncio.create_task(retention_loop())
     try:
         yield
     finally:
