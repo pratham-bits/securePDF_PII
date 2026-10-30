@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import VARBINARY, DateTime, ForeignKey, Integer, String
+from sqlalchemy import JSON, VARBINARY, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.clock import utcnow
@@ -24,6 +24,8 @@ class Document(Base):
     )
     page_count: Mapped[int] = mapped_column(Integer)
     size_bytes: Mapped[int] = mapped_column(Integer)
+    page_modes: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    error_code: Mapped[str | None] = mapped_column(String(40), nullable=True)
     storage_key: Mapped[str | None] = mapped_column(String(32))
     wrapped_key: Mapped[bytes | None] = mapped_column(VARBINARY(64))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)

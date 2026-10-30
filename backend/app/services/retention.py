@@ -2,13 +2,13 @@ import asyncio
 import logging
 import time
 
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from app.core.clock import utcnow
 from app.core.config import settings
 from app.db.session import SessionLocal
-from app.models import Document
+from app.models import Document, Finding
 from app.services import storage
 
 logger = logging.getLogger("uvicorn.error")  # shows up in the server log
@@ -22,6 +22,7 @@ def purge_document(db: Session, document: Document, new_status: str) -> None:
     document.storage_key = None
     document.wrapped_key = None
     document.status = new_status
+    db.execute(delete(Finding).where(Finding.document_id == document.id))
     db.commit()  # once this succeeds, the stored file can no longer be decrypted
     if storage_key:
         storage.delete_file(storage_key)

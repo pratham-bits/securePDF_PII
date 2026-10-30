@@ -7,6 +7,7 @@ from app.pipeline.extract import Word, extract_page_words
 from app.pipeline.locate import Box
 from app.pipeline.ocr import OCR_DPI, ocr_page, preprocess, render_page
 from app.pipeline.redact import verify_redaction
+from app.pipeline.extract import Word, extract_page_words, open_pdf
 
 MIN_TEXT_WORDS = 5  # fewer words than this on a page means "treat it as a scan"
 LEAK_OVERLAP = 0.5  # a word counts as a leak if this much of it lies inside a box
@@ -18,10 +19,10 @@ class Extraction:
     modes: list[str]  # one entry per page: "digital" or "ocr"
 
 
-def extract_document(pdf_path: str | Path, lang: str = "eng") -> Extraction:
+def extract_document(source: "str | Path | bytes", lang: str = "eng") -> Extraction:
     words: list[Word] = []
     modes: list[str] = []
-    with pymupdf.open(pdf_path) as doc:
+    with open_pdf(source) as doc:
         for number, page in enumerate(doc):
             page_words = extract_page_words(page, number)
             if len(page_words) >= MIN_TEXT_WORDS:
