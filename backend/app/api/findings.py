@@ -28,20 +28,6 @@ def _finding(db: Session, document: Document, finding_id: int) -> Finding:
     return finding
 
 
-@router.get("", response_model=list[FindingOut])
-def list_findings(
-    document_id: str,
-    user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    document = _reviewable_document(db, user, document_id)
-    stmt = (
-        select(Finding)
-        .where(Finding.document_id == document.id)
-        .order_by(Finding.page, Finding.id)
-    )
-    return list(db.scalars(stmt))
-
 
 @router.post("", response_model=FindingOut, status_code=status.HTTP_201_CREATED)
 def add_manual_box(
