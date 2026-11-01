@@ -1,0 +1,54 @@
+export class ApiError extends Error {
+  constructor(status, message) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+  }
+}
+
+// FastAPI sends {detail: "text"} or, for validation, {detail: [{msg: "..."}]}.
+function messageFrom(data, status) {
+  const detail = data && data.detail
+  if (typeof detail === 'string') return detail
+  if (Array.isArray(detail) && detail.length > 0) {
+    return detail.map((item) => item.msg).join('; ')
+  }
+  return `Request failed (${status})`
+}
+
+async function request(path, { method = 'GET', json, body } = {}) {
+  const options = { method, credentials: 'include', headers: {} }
+  if (json !== undefined) {
+    options.headers['Content-Type'] = 'application/json'
+    options.body = JSON.stringify(json)
+  } else if (body !== undefined) {
+    options.body = body // FormData: the browser sets the multipart header itself
+  }
+
+  let response
+  try {
+    response = await fetch(`/api${path}`, options)
+  } catch {
+    throw new ApiError(0, 'Cannot reach the server. Is it running?')
+  }
+
+  if (response.status === 204) return null
+  const contentType = response.headers.get('content-type') || ''
+  const data = contentType.includes('application/json') ? await response.json() : null
+  if (!response.ok) {
+    throw new ApiError(response.status, messageFrom(data, response.status))
+  }
+  return data
+}
+
+export const api = {
+  get: (path) => request(path),
+  post: (path, json) => request(path, { method: 'POST', json }),
+  patch: (path, json) => request(path, { method: 'PATCH', json }),
+  delete: (path) => request(path, { method: 'DELETE' }),
+  upload: (path, file) => {
+    const form = new FormData()
+    form.append('file', file)
+    return request(path, { method: 'POST', body: form })
+  },
+}

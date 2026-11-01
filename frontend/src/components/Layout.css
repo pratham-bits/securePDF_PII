@@ -1,0 +1,80 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout__inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.layout__header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.layout__header .layout__inner {
+  width: 100%;
+}
+
+.layout__nav {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.layout__nav a {
+  color: var(--color-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.layout__nav a:hover {
+  color: var(--color-text);
+}
+
+.layout__main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.layout__footer {
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-4) 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--color-text);
+}
+
+/* The logo: a redaction bar with a teal end. */
+.brand__mark {
+  width: 24px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--color-redact);
+  box-shadow: inset -7px 0 0 var(--color-primary);
+}
