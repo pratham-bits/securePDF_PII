@@ -1,0 +1,48 @@
+.viewer__page {
+  position: relative;
+  margin: 0 auto var(--space-5);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.viewer__pagenum {
+  position: absolute;
+  bottom: -20px;
+  right: 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.box {
+  position: absolute;
+  padding: 0;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 2px;
+}
+
+.box--mandatory {
+  background: rgb(185 28 28 / 0.25);
+  border-color: var(--color-danger);
+}
+
+.box--recommended,
+.box--manual {
+  background: rgb(180 83 9 / 0.25);
+  border-color: var(--color-warning);
+}
+
+.box--optional {
+  background: rgb(15 118 110 / 0.2);
+  border-color: var(--color-primary);
+}
+
+/* A finding the user chose to keep: outline only. */
+.box--keep {
+  background: transparent;
+  border-style: dashed;
+}
+
+.box--selected {
+  box-shadow: 0 0 0 3px var(--color-primary-soft), 0 0 0 5px var(--color-primary);
+}
