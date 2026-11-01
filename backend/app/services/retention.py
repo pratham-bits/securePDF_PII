@@ -17,15 +17,18 @@ HIDDEN_STATUSES = ("deleted", "expired")
 
 
 def purge_document(db: Session, document: Document, new_status: str) -> None:
-    """Erase the key first (crypto-shredding), then the file."""
-    storage_key = document.storage_key
+    """Erase the keys first (crypto-shredding), then the files."""
+    keys = [document.storage_key, document.output_storage_key]
     document.storage_key = None
     document.wrapped_key = None
+    document.output_storage_key = None
+    document.output_wrapped_key = None
     document.status = new_status
     db.execute(delete(Finding).where(Finding.document_id == document.id))
-    db.commit()  # once this succeeds, the stored file can no longer be decrypted
-    if storage_key:
-        storage.delete_file(storage_key)
+    db.commit()  # once this succeeds, the stored files can no longer be decrypted
+    for key in keys:
+        if key:
+            storage.delete_file(key)
 
 
 def purge_expired(db: Session) -> int:
@@ -45,6 +48,13 @@ def sweep_orphan_files(db: Session) -> int:
         return 0
     referenced = set(
         db.scalars(select(Document.storage_key).where(Document.storage_key.is_not(None)))
+    )
+    referenced |= set(
+        db.scalars(
+            select(Document.output_storage_key).where(
+                Document.output_storage_key.is_not(None)
+            )
+        )
     )
     cutoff = time.time() - settings.orphan_grace_minutes * 60
     removed = 0

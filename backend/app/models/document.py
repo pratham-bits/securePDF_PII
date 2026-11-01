@@ -26,6 +26,12 @@ class Document(Base):
     size_bytes: Mapped[int] = mapped_column(Integer)
     page_modes: Mapped[list | None] = mapped_column(JSON, nullable=True)
     error_code: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    output_storage_key: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    output_wrapped_key: Mapped[bytes | None] = mapped_column(VARBINARY(64), nullable=True)
+
+    @property
+    def has_output(self) -> bool:
+        return self.output_storage_key is not None
     storage_key: Mapped[str | None] = mapped_column(String(32))
     wrapped_key: Mapped[bytes | None] = mapped_column(VARBINARY(64))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)

@@ -1,5 +1,5 @@
 import logging
-import threading
+
 from dataclasses import asdict
 
 from sqlalchemy import delete, select
@@ -12,7 +12,7 @@ from app.pipeline.policy import default_decision, tier_for
 from app.services import storage
 from app.core.config import settings
 from app.db.session import SessionLocal
-
+from app.services.jobs import slots
 logger = logging.getLogger("uvicorn.error")
 
 
@@ -74,12 +74,12 @@ def analyze_document(db: Session, document: Document) -> None:
         logger.error("analysis failed: %s", type(exc).__name__)
         _mark_failed(db, document_id)
 
-_slots = threading.BoundedSemaphore(settings.max_concurrent_analyses)
+
 
 
 def run_analysis(document_id: str) -> None:
     """Background entry point: own database session, limited concurrency."""
-    with _slots, SessionLocal() as db:
+    with slots, SessionLocal() as db:
         document = db.get(Document, document_id)
         if document is not None and document.status == "analyzing":
             analyze_document(db, document)

@@ -14,6 +14,7 @@ class DocumentOut(BaseModel):
     expires_at: datetime
     page_modes: list[str] | None = None
     error_code: str | None = None
+    has_output: bool = False
 
     @field_serializer("created_at", "expires_at")
     def _as_utc(self, value: datetime) -> str:
