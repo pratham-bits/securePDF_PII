@@ -1,0 +1,31 @@
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--color-border);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.badge--analyzing,
+.badge--redacting {
+  background: #fef3c7;
+  color: var(--color-warning);
+}
+
+.badge--ready {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+.badge--redacted {
+  background: #dcfce7;
+  color: var(--color-success);
+}
+
+.badge--failed {
+  background: #fee2e2;
+  color: var(--color-danger);
+}

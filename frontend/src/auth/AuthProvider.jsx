@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { api } from '../api/client.js'
+import { api, setUnauthorizedHandler } from '../api/client.js'
 import { AuthContext } from './AuthContext.js'
 
 export default function AuthProvider({ children }) {
@@ -25,6 +25,11 @@ export default function AuthProvider({ children }) {
     return () => {
       cancelled = true
     }
+  }, [])
+    // An expired session anywhere in the app logs the user out.
+  useEffect(() => {
+    setUnauthorizedHandler(() => setUser(null))
+    return () => setUnauthorizedHandler(null)
   }, [])
 
   const login = useCallback(async (email, password) => {

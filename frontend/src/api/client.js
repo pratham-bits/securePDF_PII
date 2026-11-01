@@ -6,6 +6,13 @@ export class ApiError extends Error {
   }
 }
 
+let onUnauthorized = null
+
+// The auth provider registers this so an expired session logs the user out everywhere.
+export function setUnauthorizedHandler(handler) {
+  onUnauthorized = handler
+}
+
 // FastAPI sends {detail: "text"} or, for validation, {detail: [{msg: "..."}]}.
 function messageFrom(data, status) {
   const detail = data && data.detail
@@ -30,6 +37,11 @@ async function request(path, { method = 'GET', json, body } = {}) {
     response = await fetch(`/api${path}`, options)
   } catch {
     throw new ApiError(0, 'Cannot reach the server. Is it running?')
+  }
+
+  // A 401 on anything except the auth calls means the session has expired.
+  if (response.status === 401 && !path.startsWith('/auth/') && onUnauthorized) {
+    onUnauthorized()
   }
 
   if (response.status === 204) return null
