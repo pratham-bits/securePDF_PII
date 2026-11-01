@@ -1,8 +1,17 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 
+import { useAuth } from '../auth/useAuth.js'
 import './Layout.css'
 
 export default function Layout() {
+  const { user, loading, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    await logout()
+    navigate('/')
+  }
+
   return (
     <div className="layout">
       <header className="layout__header">
@@ -13,6 +22,22 @@ export default function Layout() {
           </Link>
           <nav className="layout__nav">
             <Link to="/">Home</Link>
+            {!loading && user && (
+              <>
+                <Link to="/dashboard">Dashboard</Link>
+                <button type="button" className="layout__logout" onClick={handleLogout}>
+                  Log out
+                </button>
+              </>
+            )}
+            {!loading && !user && (
+              <>
+                <Link to="/login">Log in</Link>
+                <Link to="/register" className="btn btn--primary layout__cta">
+                  Get started
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </header>

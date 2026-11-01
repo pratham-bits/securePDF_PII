@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { api } from '../api/client.js'
+import { useAuth } from '../auth/useAuth.js'
 import './Home.css'
 
 const FEATURES = [
@@ -19,6 +21,7 @@ const FEATURES = [
 ]
 
 export default function Home() {
+  const { user } = useAuth()
   const [apiStatus, setApiStatus] = useState('checking')
 
   // Development helper: shows whether the dev proxy reaches the backend.
@@ -37,6 +40,22 @@ export default function Home() {
           SecurePDF finds Aadhaar and PAN numbers, bank details and more in digital and
           scanned PDFs, lets you review each finding, and removes the content from the file.
         </p>
+        <div className="home__actions">
+          {user ? (
+            <Link to="/dashboard" className="btn btn--primary">
+              Go to your documents
+            </Link>
+          ) : (
+            <>
+              <Link to="/register" className="btn btn--primary">
+                Get started
+              </Link>
+              <Link to="/login" className="btn">
+                Log in
+              </Link>
+            </>
+          )}
+        </div>
         {import.meta.env.DEV && (
           <p className="home__dev">
             Backend: <strong data-status={apiStatus}>{apiStatus}</strong>

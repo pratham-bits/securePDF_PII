@@ -28,16 +28,35 @@
 
 .layout__nav {
   display: flex;
+  align-items: center;
   gap: var(--space-5);
 }
 
-.layout__nav a {
+.layout__nav a:not(.btn) {
   color: var(--color-muted);
   text-decoration: none;
   font-weight: 500;
 }
 
-.layout__nav a:hover {
+.layout__nav a:not(.btn):hover {
+  color: var(--color-text);
+}
+
+.layout__cta {
+  padding: 6px 14px;
+}
+
+.layout__logout {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.layout__logout:hover {
   color: var(--color-text);
 }
 
