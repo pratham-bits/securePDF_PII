@@ -9,6 +9,7 @@ from app.pipeline.ocr import OCR_DPI, ocr_page, preprocess, render_page
 from app.pipeline.redact import verify_redaction
 
 MIN_TEXT_WORDS = 5  # fewer words than this on a page means "treat it as a scan"
+MIN_LEAK_CONF = 50  # junk that OCR reads on black boxes scored 22-31 in our samples
 LEAK_OVERLAP = 0.5  # a word counts as a leak if this much of it lies inside a box
 
 
@@ -44,6 +45,8 @@ def inside_fraction(word: Word, box: Box) -> float:
 
 _inside_fraction = inside_fraction  # alias for backward compatibility
 
+def _could_be_leaked_text(word: Word) -> bool:
+    return (word.conf or 0) >= MIN_LEAK_CONF and any(c.isalnum() for c in word.text)
 
 def _ocr_leaks(source: str | Path | bytes, boxes: list[Box], lang: str) -> list[Box]:
     """Re-OCR the saved file; a confident word inside a box means a leak."""
@@ -52,10 +55,7 @@ def _ocr_leaks(source: str | Path | bytes, boxes: list[Box], lang: str) -> list[
         for page_number in sorted({b.page for b in boxes}):
             image = preprocess(render_page(doc[page_number]))
             words = ocr_page(image, page_number, OCR_DPI, lang)
-            surviving[page_number] = [
-                w for w in words
-                if (w.conf or 0) >= 30 and any(c.isalnum() for c in w.text)
-            ]
+            surviving[page_number] = [w for w in words if _could_be_leaked_text(w)]
         return [
             b for b in boxes
             if any(inside_fraction(w, b) >= LEAK_OVERLAP for w in surviving.get(b.page, []))

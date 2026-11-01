@@ -5,9 +5,9 @@ import pymupdf
 from PIL import Image, ImageStat
 
 from app.pipeline.document import (
-    Extraction,
+    _could_be_leaked_text,
+    _inside_fraction,
     extract_document,
-    inside_fraction,
     verify_output,
 )
 from app.pipeline.extract import Word
@@ -87,5 +87,11 @@ def test_label_word_stretched_over_a_black_box_is_not_a_leak():
     box = Box(0, 100.0, 10.0, 124.0, 22.0)
     label = Word(0, "Aadhaar:", 10.0, 10.0, 138.0, 22.0, 90.0)  # mostly outside the box
     leaked = Word(0, "ABCDE1234F", 100.0, 10.0, 124.0, 22.0, 90.0)
-    assert inside_fraction(label, box) < 0.5
-    assert inside_fraction(leaked, box) >= 0.5
+    assert _inside_fraction(label, box) < 0.5
+    assert _inside_fraction(leaked, box) >= 0.5
+
+def test_junk_read_on_a_black_box_is_not_a_leak_but_a_confident_word_is():
+    junk = Word(0, "ia", 0.0, 0.0, 10.0, 10.0, 31.0)
+    leaked = Word(0, "ABCDE1234F", 0.0, 0.0, 10.0, 10.0, 92.0)
+    assert not _could_be_leaked_text(junk)
+    assert _could_be_leaked_text(leaked)

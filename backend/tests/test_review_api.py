@@ -99,7 +99,7 @@ def test_a_manual_box_is_added_as_a_redaction(client, db_session):
     assert body["tier"] == "manual"
     assert body["decision"] == "redact"
     assert body["boxes"][0]["x1"] == 200
-    assert len(client.get(_url(document_id)).json()) == 5
+    assert len(client.get(_url(document_id)).json()) == 7
 
 
 def test_manual_box_input_is_validated(client, db_session):

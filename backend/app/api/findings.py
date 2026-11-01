@@ -29,6 +29,7 @@ def _finding(db: Session, document: Document, finding_id: int) -> Finding:
 
 
 
+
 @router.post("", response_model=FindingOut, status_code=status.HTTP_201_CREATED)
 def add_manual_box(
     document_id: str,

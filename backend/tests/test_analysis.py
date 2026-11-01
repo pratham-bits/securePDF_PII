@@ -65,10 +65,11 @@ def test_digital_document_gets_findings_with_tiers(db_session, user):
     assert document.status == "ready"
     assert document.page_modes == ["digital"]
     by_type = {f.entity_type: f for f in _findings(db_session, document)}
-    assert set(by_type) == {"PAN", "AADHAAR", "PHONE_IN", "EMAIL"}
+    assert set(by_type) == {"PAN", "AADHAAR", "PHONE_IN", "EMAIL", "BANK_ACCOUNT", "IFSC"}
     assert by_type["PAN"].tier == "mandatory"
     assert by_type["PAN"].decision == "redact"
     assert by_type["EMAIL"].tier == "recommended"
+    assert by_type["BANK_ACCOUNT"].tier == "mandatory"
     assert all(f.boxes for f in by_type.values())
 
 
@@ -97,7 +98,7 @@ def test_analyzing_again_replaces_the_findings(db_session, user):
     document.status = "analyzing"
     db_session.commit()
     analyze_document(db_session, document)
-    assert len(_findings(db_session, document)) == 4
+    assert len(_findings(db_session, document)) == 6
 
 
 def test_purging_a_document_deletes_its_findings(db_session, user):

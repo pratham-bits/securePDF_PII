@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-from app.pipeline.validators import luhn_valid, verhoeff_valid
+from app.pipeline.validators import gstin_valid, luhn_valid, verhoeff_valid
 
 _DEVANAGARI_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
 
@@ -22,6 +22,7 @@ class Detection:
     checksum_ok: bool | None = None  # None when the entity has no checksum
 
 
+# --- Patterns: the original detectors ---------------------------------------
 EMAIL_RE = re.compile(
     r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}"
 )
@@ -36,11 +37,68 @@ PHONE_RE = re.compile(
 )
 CARD_RE = re.compile(r"(?<![0-9])[0-9](?:[ -]?[0-9]){12,18}(?![0-9])")
 
+# --- Patterns: the expansion pack -------------------------------------------
+IFSC_RE = re.compile(r"(?<![A-Za-z0-9])[A-Z]{4}0[A-Z0-9]{6}(?![A-Za-z0-9])")
+# Only a number right after an account label counts: bare digits are too common.
+BANK_ACCOUNT_RE = re.compile(
+    r"(?i)(?:a/c|\bacc(?:ount)?|खाता|खाते)\.?\s*"
+    r"(?:no\.?|number|num|संख्या|नंबर|सं\.?)?\s*[:\-#]?\s*"
+    r"(?P<num>[0-9][0-9 -]{7,20}[0-9])(?![0-9])"
+)
+VID_RE = re.compile(
+    r"(?i)(?:\bvid\b|virtual\s+id|वर्चुअल\s*आईडी)\s*[:\-#]?\s*"
+    r"(?P<num>[0-9]{4}(?:[ -]?[0-9]{4}){3})(?![0-9])"
+)
+PASSPORT_RE = re.compile(r"(?<![A-Za-z0-9])[A-PR-WY][0-9]{7}(?![A-Za-z0-9])")
+VOTER_RE = re.compile(r"(?<![A-Za-z0-9])[A-Z]{3}[0-9]{7}(?![A-Za-z0-9])")
+DL_RE = re.compile(
+    r"(?<![A-Za-z0-9])[A-Z]{2}[ -]?[0-9]{2}[ -]?(?:19|20)[0-9]{2}[ -]?[0-9]{7}(?![A-Za-z0-9])"
+)
+GSTIN_RE = re.compile(
+    r"(?<![A-Za-z0-9])[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z](?![A-Za-z0-9])"
+)
+# A UPI handle has no dot after the "@", which keeps it apart from an email address.
+UPI_RE = re.compile(
+    r"(?<![A-Za-z0-9._%+-])[A-Za-z0-9._-]{2,64}@(?P<handle>[A-Za-z][A-Za-z0-9]{1,31})"
+    r"(?![A-Za-z0-9])(?!\.[A-Za-z0-9])"
+)
+VEHICLE_RE = re.compile(
+    r"(?<![A-Za-z0-9])[A-Z]{2}[ -]?[0-9]{2}[ -]?[A-Z]{1,3}[ -]?[0-9]{4}(?![A-Za-z0-9])"
+)
+_MONTHS = "jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec"
+_DATE_VALUE = (
+    r"(?:[0-9]{1,2}[/.\-][0-9]{1,2}[/.\-][0-9]{2,4}"
+    r"|[0-9]{1,2}(?:st|nd|rd|th)?[ \-](?:" + _MONTHS + r")[a-z]*\.?,?[ \-][0-9]{4})"
+)
+DOB_RE = re.compile(
+    r"(?i)(?:\bdob\b|date\s+of\s+birth|born\s+on|जन्म\s*तिथि|जन्मतिथि)\s*[:\-]?\s*"
+    r"(?P<date>" + _DATE_VALUE + r")"
+)
+
+PASSPORT_CONTEXT = ("passport", "पासपोर्ट")
+VOTER_CONTEXT = ("voter", "epic", "मतदाता", "निर्वाचन")
+DL_CONTEXT = ("driving", "licence", "license", "dl no", "d.l.", "ड्राइविंग", "लाइसेंस")
+KNOWN_UPI_HANDLES = {
+    "okaxis", "okhdfcbank", "okicici", "oksbi", "ybl", "ibl", "axl", "paytm", "upi", "apl",
+}
+
+
+def _make_span(entity_type, start, end, original, score, checksum_ok=None) -> Detection:
+    return Detection(
+        entity_type, start, end, original[start:end], score, checksum_ok=checksum_ok
+    )
+
 
 def _make(entity_type, match, original, score, checksum_ok=None) -> Detection:
-    start, end = match.start(), match.end()
-    return Detection(entity_type, start, end, original[start:end], score,
-                     checksum_ok=checksum_ok)
+    return _make_span(
+        entity_type, match.start(), match.end(), original, score, checksum_ok
+    )
+
+
+def _has_context(norm: str, start: int, words: tuple[str, ...], window: int = 40) -> bool:
+    """True if one of the words appears shortly before the match."""
+    before = norm[max(0, start - window):start].lower()
+    return any(word in before for word in words)
 
 
 def resolve_overlaps(detections: list[Detection]) -> list[Detection]:
@@ -57,6 +115,7 @@ def detect_rules(text: str) -> list[Detection]:
     norm = normalize_digits(text)
     found: list[Detection] = []
 
+    # Original detectors
     for m in EMAIL_RE.finditer(norm):
         found.append(_make("EMAIL", m, text, 0.95))
 
@@ -73,5 +132,47 @@ def detect_rules(text: str) -> list[Detection]:
     for m in CARD_RE.finditer(norm):
         if luhn_valid(re.sub(r"\D", "", m.group())):
             found.append(_make("CREDIT_CARD", m, text, 0.90, True))
+
+    # Expansion pack
+    for m in IFSC_RE.finditer(norm):
+        found.append(_make("IFSC", m, text, 0.85))
+
+    for m in BANK_ACCOUNT_RE.finditer(norm):
+        digits = re.sub(r"\D", "", m.group("num"))
+        if 9 <= len(digits) <= 18:
+            found.append(
+                _make_span("BANK_ACCOUNT", m.start("num"), m.end("num"), text, 0.92)
+            )
+
+    for m in VID_RE.finditer(norm):
+        found.append(_make_span("AADHAAR_VID", m.start("num"), m.end("num"), text, 0.92))
+
+    for m in PASSPORT_RE.finditer(norm):
+        near = _has_context(norm, m.start(), PASSPORT_CONTEXT)
+        found.append(_make("PASSPORT_IN", m, text, 0.90 if near else 0.45))
+
+    for m in VOTER_RE.finditer(norm):
+        near = _has_context(norm, m.start(), VOTER_CONTEXT)
+        found.append(_make("VOTER_ID", m, text, 0.90 if near else 0.40))
+
+    for m in DL_RE.finditer(norm):
+        near = _has_context(norm, m.start(), DL_CONTEXT)
+        found.append(_make("DRIVING_LICENCE", m, text, 0.92 if near else 0.85))
+
+    for m in GSTIN_RE.finditer(norm):
+        ok = gstin_valid(m.group())
+        found.append(_make("GSTIN", m, text, 0.95 if ok else 0.50, ok))
+
+    for m in UPI_RE.finditer(norm):
+        known = m.group("handle").lower() in KNOWN_UPI_HANDLES
+        found.append(_make("UPI_ID", m, text, 0.90 if known else 0.50))
+
+    for m in VEHICLE_RE.finditer(norm):
+        found.append(_make("VEHICLE_REG", m, text, 0.70))
+
+    for m in DOB_RE.finditer(norm):
+        found.append(
+            _make_span("DATE_OF_BIRTH", m.start("date"), m.end("date"), text, 0.90)
+        )
 
     return resolve_overlaps(found)

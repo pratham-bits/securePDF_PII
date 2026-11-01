@@ -50,3 +50,21 @@ def luhn_valid(number: str) -> bool:
                 digit -= 9
         total += digit
     return total % 10 == 0
+
+
+_GSTIN_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def gstin_check_char(first_14: str) -> str:
+    """The 15th character of a GSTIN, computed from the first 14."""
+    total = 0
+    for i, ch in enumerate(first_14):
+        product = _GSTIN_CHARS.index(ch) * (1 if i % 2 == 0 else 2)
+        total += product // 36 + product % 36
+    return _GSTIN_CHARS[(36 - total % 36) % 36]
+
+
+def gstin_valid(gstin: str) -> bool:
+    if len(gstin) != 15 or any(ch not in _GSTIN_CHARS for ch in gstin):
+        return False
+    return gstin_check_char(gstin[:14]) == gstin[14]

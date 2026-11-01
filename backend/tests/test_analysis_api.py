@@ -70,6 +70,6 @@ def test_findings_endpoint_returns_boxes_and_tiers(client, db_session):
 
     assert response.status_code == 200
     findings = response.json()
-    assert {f["entity_type"] for f in findings} == {"PAN", "AADHAAR", "PHONE_IN", "EMAIL"}
+    assert {f["entity_type"] for f in findings} == {"PAN", "AADHAAR", "PHONE_IN", "EMAIL", "BANK_ACCOUNT", "IFSC"}
     assert all(f["boxes"] and f["decision"] == "redact" for f in findings)
     assert client.get(f"/api/documents/{document_id}").json()["status"] == "ready"

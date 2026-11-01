@@ -1,4 +1,22 @@
-MANDATORY = {"AADHAAR", "PAN", "CREDIT_CARD"}
+MANDATORY = {
+    "AADHAAR",
+    "AADHAAR_VID",
+    "PAN",
+    "PASSPORT_IN",
+    "VOTER_ID",
+    "DRIVING_LICENCE",
+    "CREDIT_CARD",
+    "BANK_ACCOUNT",
+}
+RECOMMENDED = {
+    "EMAIL",
+    "PHONE_IN",
+    "IFSC",
+    "GSTIN",
+    "UPI_ID",
+    "VEHICLE_REG",
+    "DATE_OF_BIRTH",
+}
 OPTIONAL = {"ORGANIZATION", "LOCATION", "DATE"}  # used once the ML model arrives
 
 

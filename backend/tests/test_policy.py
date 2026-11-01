@@ -17,3 +17,9 @@ def test_optional_entities_are_kept_and_unknown_ones_are_redacted():
     assert tier_for("ORGANIZATION") == "optional"
     assert default_decision("optional") == "keep"
     assert tier_for("SOMETHING_NEW") == "recommended"
+
+def test_expansion_pack_tiers():
+    for entity in ("BANK_ACCOUNT", "PASSPORT_IN", "VOTER_ID", "DRIVING_LICENCE", "AADHAAR_VID"):
+        assert tier_for(entity) == "mandatory"
+    for entity in ("IFSC", "GSTIN", "UPI_ID", "VEHICLE_REG", "DATE_OF_BIRTH"):
+        assert tier_for(entity) == "recommended"

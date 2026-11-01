@@ -1,5 +1,12 @@
 from app.pipeline.validators import luhn_valid, verhoeff_check_digit, verhoeff_valid
 
+from app.pipeline.validators import gstin_check_char, gstin_valid
+
+
+def test_gstin_known_vector():
+    assert gstin_check_char("27AAPFU0939F1Z") == "V"
+    assert gstin_valid("27AAPFU0939F1ZV")
+    assert not gstin_valid("27AAPFU0939F1ZW")
 
 def test_verhoeff_known_vector():
     assert verhoeff_check_digit("236") == "3"
