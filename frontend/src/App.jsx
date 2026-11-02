@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/Layout.jsx";
@@ -7,7 +8,7 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Register from "./pages/Register.jsx";
-import Review from "./pages/Review.jsx";
+const LazyReview = lazy(() => import("./pages/Review.jsx"));
 
 export default function App() {
   return (
@@ -19,7 +20,14 @@ export default function App() {
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
-        <Route path="/documents/:id" element={<Review />} />
+        <Route
+          path="/documents/:id"
+          element={
+            <Suspense fallback={<p>Loading…</p>}>
+              <LazyReview />
+            </Suspense>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

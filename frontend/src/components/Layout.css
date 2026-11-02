@@ -97,3 +97,18 @@
   background: var(--color-redact);
   box-shadow: inset -7px 0 0 var(--color-primary);
 }
+
+.layout__nav a,
+.layout__logout {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .layout__inner {
+    padding: 0 var(--space-3);
+  }
+
+  .layout__nav {
+    gap: var(--space-3);
+  }
+}
