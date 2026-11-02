@@ -104,3 +104,42 @@ def test_other_users_cannot_download_view_or_redact(client, db_session):
         assert other.get(f"/api/documents/{document_id}/original").status_code == 404
         assert other.get(f"/api/documents/{document_id}/download").status_code == 404
         assert other.post(f"/api/documents/{document_id}/redact").status_code == 404
+
+def _redacted_document(client, db_session):
+    document_id = _ready_document(client, db_session)
+    document = db_session.get(Document, document_id)
+    document.status = "redacting"
+    db_session.commit()
+    redact_document(db_session, document)
+    assert document.status == "redacted"
+    return document_id, document
+
+
+def test_changing_a_decision_after_redaction_discards_the_stale_output(
+    client, db_session
+):
+    document_id, document = _redacted_document(client, db_session)
+    findings = client.get(f"/api/documents/{document_id}/findings").json()
+    email = next(f for f in findings if f["entity_type"] == "EMAIL")
+
+    response = client.patch(
+        f"/api/documents/{document_id}/findings/{email['id']}",
+        json={"decision": "keep"},
+    )
+
+    assert response.status_code == 200
+    db_session.refresh(document)
+    assert document.status == "ready"
+    assert not document.has_output
+    assert client.get(f"/api/documents/{document_id}/download").status_code == 409
+
+
+def test_adding_a_box_after_redaction_also_discards_the_output(client, db_session):
+    document_id, document = _redacted_document(client, db_session)
+    box = {"page": 0, "x0": 72, "y0": 100, "x1": 200, "y1": 120}
+
+    assert client.post(f"/api/documents/{document_id}/findings", json=box).status_code == 201
+
+    db_session.refresh(document)
+    assert document.status == "ready"
+    assert not document.has_output
