@@ -3,12 +3,19 @@ import "./FindingsPanel.css";
 
 const LOW_CONFIDENCE = 0.6;
 
-export default function FindingsPanel({ findings, selectedId, onSelect }) {
+export default function FindingsPanel({
+  findings,
+  selectedId,
+  busyId,
+  onSelect,
+  onToggle,
+  onRemove,
+}) {
   if (findings.length === 0) {
     return (
       <p className="panel__empty">
         Nothing was detected automatically. Detection is never perfect, so check
-        every page yourself.
+        every page yourself and add boxes where needed.
       </p>
     );
   }
@@ -26,21 +33,24 @@ export default function FindingsPanel({ findings, selectedId, onSelect }) {
           <ul className="panel__list">
             {group.items.map((finding) => {
               const selected = finding.id === selectedId;
+              const busy = finding.id === busyId;
+              const isManual = finding.source === "user";
               return (
-                <li key={finding.id}>
+                <li
+                  key={finding.id}
+                  className={`panel__row${selected ? " panel__row--selected" : ""}`}
+                >
                   <button
                     type="button"
-                    className={`panel__item${selected ? " panel__item--selected" : ""}`}
+                    className="panel__item"
                     onClick={() => onSelect(finding.id, true)}
                   >
                     <span className="panel__name">
                       {entityLabel(finding.entity_type)}
                     </span>
                     <span className="panel__meta">
-                      page {finding.page + 1} ·{" "}
-                      {finding.decision === "redact"
-                        ? "will be redacted"
-                        : "kept"}
+                      page {finding.page + 1}
+                      {finding.decision === "keep" && " · kept visible"}
                     </span>
                     {finding.score < LOW_CONFIDENCE && (
                       <span className="panel__warn">
@@ -48,6 +58,28 @@ export default function FindingsPanel({ findings, selectedId, onSelect }) {
                       </span>
                     )}
                   </button>
+                  <div className="panel__controls">
+                    {isManual ? (
+                      <button
+                        type="button"
+                        className="btn btn--small btn--danger"
+                        disabled={busy}
+                        onClick={() => onRemove(finding)}
+                      >
+                        Delete
+                      </button>
+                    ) : (
+                      <label className="panel__check">
+                        <input
+                          type="checkbox"
+                          checked={finding.decision === "redact"}
+                          disabled={busy}
+                          onChange={() => onToggle(finding)}
+                        />
+                        Redact
+                      </label>
+                    )}
+                  </div>
                 </li>
               );
             })}

@@ -37,3 +37,16 @@
     max-height: none;
   }
 }
+
+.review__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.review__hint {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
