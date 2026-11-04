@@ -7,6 +7,7 @@ export default function FindingsPanel({
   findings,
   selectedId,
   busyId,
+  locked,
   onSelect,
   onToggle,
   onRemove,
@@ -63,7 +64,7 @@ export default function FindingsPanel({
                       <button
                         type="button"
                         className="btn btn--small btn--danger"
-                        disabled={busy}
+                        disabled={busy || locked}
                         onClick={() => onRemove(finding)}
                       >
                         Delete
@@ -73,7 +74,7 @@ export default function FindingsPanel({
                         <input
                           type="checkbox"
                           checked={finding.decision === "redact"}
-                          disabled={busy}
+                          disabled={busy || locked}
                           onChange={() => onToggle(finding)}
                         />
                         Redact

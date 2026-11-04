@@ -5,8 +5,12 @@ import { documents } from "../api/documents.js";
 import ConfirmDialog from "../components/ConfirmDialog.jsx";
 import FindingsPanel from "../components/FindingsPanel.jsx";
 import PdfViewer from "../components/PdfViewer.jsx";
+import RedactionPanel from "../components/RedactionPanel.jsx";
+import { saveBlob } from "../lib/download.js";
 import { entityLabel } from "../lib/entities.js";
 import "./Review.css";
+
+const POLL_MS = 2000;
 
 export default function Review() {
   const { id } = useParams();
@@ -19,6 +23,8 @@ export default function Review() {
   const [busyId, setBusyId] = useState(null);
   const [drawMode, setDrawMode] = useState(false);
   const [pendingConfirm, setPendingConfirm] = useState(null);
+  const [starting, setStarting] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -39,6 +45,19 @@ export default function Review() {
       cancelled = true;
     };
   }, [id]);
+
+  // While the server redacts and verifies, check on it regularly.
+  const redacting = doc?.status === "redacting";
+  useEffect(() => {
+    if (!redacting) return undefined;
+    const timer = setInterval(() => {
+      documents
+        .get(id)
+        .then(setDoc)
+        .catch(() => {});
+    }, POLL_MS);
+    return () => clearInterval(timer);
+  }, [redacting, id]);
 
   function handleSelect(findingId, scroll) {
     setSelectedId(findingId);
@@ -110,6 +129,32 @@ export default function Review() {
     }).finally(() => setBusyId(null));
   }
 
+  async function handleRedact() {
+    setActionError("");
+    setStarting(true);
+    setDrawMode(false);
+    try {
+      setDoc(await documents.redact(id));
+    } catch (err) {
+      setActionError(err.message);
+    } finally {
+      setStarting(false);
+    }
+  }
+
+  async function handleDownload() {
+    setActionError("");
+    setDownloading(true);
+    try {
+      const blob = await documents.downloadRedacted(id);
+      saveBlob(blob, `redacted-${id.slice(0, 8)}.pdf`);
+    } catch (err) {
+      setActionError(err.message);
+    } finally {
+      setDownloading(false);
+    }
+  }
+
   if (loading) return <p>Loading…</p>;
 
   const backLink = (
@@ -129,7 +174,8 @@ export default function Review() {
     );
   }
 
-  if (doc.status !== "ready" && doc.status !== "redacted") {
+  const reviewable = ["ready", "redacting", "redacted"].includes(doc.status);
+  if (!reviewable) {
     return (
       <div>
         <h1>Review</h1>
@@ -139,6 +185,7 @@ export default function Review() {
     );
   }
 
+  const locked = doc.status === "redacting";
   const flagged = findings.filter((finding) => finding.score < 0.6).length;
 
   return (
@@ -156,11 +203,21 @@ export default function Review() {
         {backLink}
       </header>
 
+      <RedactionPanel
+        doc={doc}
+        findings={findings}
+        starting={starting}
+        downloading={downloading}
+        onRedact={handleRedact}
+        onDownload={handleDownload}
+      />
+
       <div className="review__toolbar">
         <button
           type="button"
           className={`btn btn--small${drawMode ? " btn--primary" : ""}`}
           aria-pressed={drawMode}
+          disabled={locked}
           onClick={() => setDrawMode((on) => !on)}
         >
           {drawMode ? "Done drawing" : "Add a box"}
@@ -184,7 +241,7 @@ export default function Review() {
           findings={findings}
           selectedId={selectedId}
           onSelect={handleSelect}
-          drawMode={drawMode}
+          drawMode={drawMode && !locked}
           onDraw={handleDraw}
         />
         <aside className="review__panel">
@@ -192,6 +249,7 @@ export default function Review() {
             findings={findings}
             selectedId={selectedId}
             busyId={busyId}
+            locked={locked}
             onSelect={handleSelect}
             onToggle={handleToggle}
             onRemove={handleRemove}

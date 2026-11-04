@@ -23,7 +23,7 @@ function messageFrom(data, status) {
   return `Request failed (${status})`
 }
 
-async function request(path, { method = 'GET', json, body } = {}) {
+async function request(path, { method = 'GET', json, body, as = 'json' } = {}) {
   const options = { method, credentials: 'include', headers: {} }
   if (json !== undefined) {
     options.headers['Content-Type'] = 'application/json'
@@ -44,13 +44,15 @@ async function request(path, { method = 'GET', json, body } = {}) {
     onUnauthorized()
   }
 
-  if (response.status === 204) return null
-  const contentType = response.headers.get('content-type') || ''
-  const data = contentType.includes('application/json') ? await response.json() : null
   if (!response.ok) {
+    const contentType = response.headers.get('content-type') || ''
+    const data = contentType.includes('application/json') ? await response.json() : null
     throw new ApiError(response.status, messageFrom(data, response.status))
   }
-  return data
+
+  if (response.status === 204) return null
+  if (as === 'blob') return response.blob()
+  return response.json()
 }
 
 export const api = {
@@ -58,6 +60,7 @@ export const api = {
   post: (path, json) => request(path, { method: 'POST', json }),
   patch: (path, json) => request(path, { method: 'PATCH', json }),
   delete: (path) => request(path, { method: 'DELETE' }),
+  download: (path) => request(path, { as: 'blob' }),
   upload: (path, file) => {
     const form = new FormData()
     form.append('file', file)

@@ -6,6 +6,8 @@ export const documents = {
   findings: (id) => api.get(`/documents/${id}/findings`),
   upload: (file) => api.upload('/documents', file),
   analyze: (id) => api.post(`/documents/${id}/analyze`),
+  redact: (id) => api.post(`/documents/${id}/redact`),
+  downloadRedacted: (id) => api.download(`/documents/${id}/download`),
   remove: (id) => api.delete(`/documents/${id}`),
   setDecision: (id, findingId, decision, confirmOverride = false) =>
     api.patch(`/documents/${id}/findings/${findingId}`, {
