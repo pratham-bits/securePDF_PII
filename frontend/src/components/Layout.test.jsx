@@ -17,7 +17,7 @@ function renderLayout(auth) {
 }
 
 describe("Layout navigation", () => {
-  it("offers Dashboard, Profile and Log out to a logged-in user", () => {
+  it("offers Dashboard and Profile, but no Log out, to a logged-in user", () => {
     renderLayout({ user: { id: 1, email: "a@example.com" } });
     expect(screen.getByRole("link", { name: "Dashboard" })).toHaveAttribute(
       "href",
@@ -27,7 +27,9 @@ describe("Layout navigation", () => {
       "href",
       "/profile",
     );
-    expect(screen.getByRole("button", { name: "Log out" })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Log out" }),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("link", { name: "Log in" }),
     ).not.toBeInTheDocument();

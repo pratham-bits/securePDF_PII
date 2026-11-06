@@ -1,16 +1,10 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 import { useAuth } from "../auth/useAuth.js";
 import "./Layout.css";
 
 export default function Layout() {
-  const { user, loading, logout } = useAuth();
-  const navigate = useNavigate();
-
-  async function handleLogout() {
-    await logout();
-    navigate("/");
-  }
+  const { user, loading } = useAuth();
 
   return (
     <div className="layout">
@@ -26,13 +20,6 @@ export default function Layout() {
               <>
                 <Link to="/dashboard">Dashboard</Link>
                 <Link to="/profile">Profile</Link>
-                <button
-                  type="button"
-                  className="layout__logout"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </button>
               </>
             )}
             {!loading && !user && (
