@@ -8,6 +8,7 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Register from "./pages/Register.jsx";
+import Profile from "./pages/Profile.jsx";
 const LazyReview = lazy(() => import("./pages/Review.jsx"));
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route
             path="/documents/:id"
             element={

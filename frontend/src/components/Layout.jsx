@@ -1,15 +1,15 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
-import { useAuth } from '../auth/useAuth.js'
-import './Layout.css'
+import { useAuth } from "../auth/useAuth.js";
+import "./Layout.css";
 
 export default function Layout() {
-  const { user, loading, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user, loading, logout } = useAuth();
+  const navigate = useNavigate();
 
   async function handleLogout() {
-    await logout()
-    navigate('/')
+    await logout();
+    navigate("/");
   }
 
   return (
@@ -25,7 +25,12 @@ export default function Layout() {
             {!loading && user && (
               <>
                 <Link to="/dashboard">Dashboard</Link>
-                <button type="button" className="layout__logout" onClick={handleLogout}>
+                <Link to="/profile">Profile</Link>
+                <button
+                  type="button"
+                  className="layout__logout"
+                  onClick={handleLogout}
+                >
                   Log out
                 </button>
               </>
@@ -50,5 +55,5 @@ export default function Layout() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
