@@ -19,15 +19,15 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/documents/:id"
+            element={
+              <Suspense fallback={<p>Loading…</p>}>
+                <LazyReview />
+              </Suspense>
+            }
+          />
         </Route>
-        <Route
-          path="/documents/:id"
-          element={
-            <Suspense fallback={<p>Loading…</p>}>
-              <LazyReview />
-            </Suspense>
-          }
-        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
