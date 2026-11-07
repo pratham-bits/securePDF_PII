@@ -10,6 +10,10 @@ PDF_REDACT_IMAGE_PIXELS = 2  # blank out overlapping image pixels (default in Py
 
 
 def _apply_redactions(doc: pymupdf.Document, boxes: list[Box]) -> None:
+    # Flatten form fields and annotations first. Left alone, a fillable field
+    # keeps its value and a comment keeps its text after redaction. As plain page
+   # content they are redacted like any other text, and the hidden data is gone.
+    doc.bake(annots=True, widgets=True)
     for box in boxes:
         rect = pymupdf.Rect(box.x0 - PAD, box.y0 - PAD, box.x1 + PAD, box.y1 + PAD)
         doc[box.page].add_redact_annot(rect, fill=(0, 0, 0))
