@@ -38,7 +38,7 @@ def analyze_document(db: Session, document: Document) -> None:
         data = storage.read_decrypted(
             document.storage_key, document.wrapped_key, document_id
         )
-        extraction = extract_document(data)
+        extraction = extract_document(data, lang=settings.ocr_languages)
         findings = find_pii(extraction.words)
 
         db.refresh(document)

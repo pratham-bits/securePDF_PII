@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     purge_interval_minutes: int = 10
     orphan_grace_minutes: int = 60  # unreferenced files younger than this are left alone
     max_concurrent_analyses: int = 1  # OCR is CPU-heavy
+    ocr_languages: str = "eng+hin"  # Tesseract language packs; each must be installed
     retention_enabled: bool = True  # tests switch this off
 
     model_config = SettingsConfigDict(

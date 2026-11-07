@@ -2,7 +2,7 @@ import logging
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
+from app.core.config import settings
 from app.db.session import SessionLocal
 from app.models import Document, Finding
 from app.pipeline.document import verify_output
@@ -60,7 +60,7 @@ def redact_document(db: Session, document: Document) -> None:
         modes = list(document.page_modes or [])
 
         output = redact_bytes(data, boxes)
-        leaks = verify_output(output, boxes, modes)
+        leaks = verify_output(output, boxes, modes, lang=settings.ocr_languages)
         if leaks:
             db.rollback()
             logger.error("redaction verification failed: %d box(es)", len(leaks))

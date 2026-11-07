@@ -125,6 +125,40 @@ def detect_rules(text: str) -> list[Detection]:
     for m in AADHAAR_RE.finditer(norm):
         ok = verhoeff_valid(re.sub(r"\D", "", m.group()))
         found.append(_make("AADHAAR", m, text, 0.95 if ok else 0.40, ok))
+    # Fallback detection: OCR of a Hindi Aadhaar written in Devanagari digits often inserts a
+    # space between every digit, so the primary regex (which allows one optional separator between
+    # 4‑digit groups) cannot match. We normalise the entire string to remove all spaces/hyphens
+    # and retry. This fallback is restricted to texts that contain Devanagari characters so it
+    # never fires when English-only OCR happens to produce an unrelated 12‑digit number.
+    # We use a real match position on `norm` (not a dummy span) so that `locate()` can still
+    # build bounding boxes: we find the first position in `norm` where the digit sequence starts.
+    if not any(d.entity_type == "AADHAAR" for d in found) and re.search(r"[\u0900-\u097F\u0966-\u096F]", text):
+        norm_nospace = re.sub(r"[ \-]", "", norm)
+        m2 = re.search(r"[2-9]\d{11}", norm_nospace)
+        if m2:
+            ok2 = verhoeff_valid(m2.group())
+            # Locate the start of the matched digit sequence inside the original `norm` string.
+            # We scan `norm` character by character, skipping spaces/hyphens, until we have
+            # consumed as many non-separator characters as the match start in `norm_nospace`.
+            target_ns_start = m2.start()
+            ns_idx = 0
+            real_start = 0
+            for real_start, ch in enumerate(norm):
+                if ch not in (" ", "-"):
+                    if ns_idx == target_ns_start:
+                        break
+                    ns_idx += 1
+            # Find real_end similarly (advance another 12 non-separator characters).
+            real_end = real_start
+            digits_seen = 0
+            for i in range(real_start, len(norm)):
+                if norm[i] not in (" ", "-"):
+                    digits_seen += 1
+                real_end = i + 1
+                if digits_seen == 12:
+                    break
+            found.append(_make_span("AADHAAR", real_start, real_end, text, 0.95 if ok2 else 0.40, ok2))
+
 
     for m in PHONE_RE.finditer(norm):
         found.append(_make("PHONE_IN", m, text, 0.80))

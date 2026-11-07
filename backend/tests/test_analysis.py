@@ -81,6 +81,13 @@ def test_scanned_document_goes_through_ocr(db_session, user):
     types = {f.entity_type for f in _findings(db_session, document)}
     assert {"PAN", "PHONE_IN", "EMAIL"} <= types
 
+def test_hindi_scan_is_analyzed_with_the_configured_languages(db_session, user):
+    document = _document(db_session, user, "sample_scanned_hi.pdf")
+    analyze_document(db_session, document)
+    assert document.status == "ready"
+    assert document.page_modes == ["ocr"]
+    types = {f.entity_type for f in _findings(db_session, document)}
+    assert {"AADHAAR", "PAN", "EMAIL", "BANK_ACCOUNT"} <= types
 
 def test_failed_analysis_is_recorded_without_findings(db_session, user):
     document = _document(db_session, user)

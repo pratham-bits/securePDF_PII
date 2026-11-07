@@ -138,6 +138,11 @@ def test_scanned_documents_are_verified_with_a_second_ocr_pass(db_session, user)
     assert document.status == "redacted"
     assert document.error_code is None
 
+def test_hindi_scans_are_redacted_and_verified(db_session, user):
+    document = _analyzed(db_session, user, "sample_scanned_hi.pdf")
+    redact_document(db_session, document)
+    assert document.status == "redacted"
+    assert document.error_code is None
 
 def test_a_failed_verification_never_produces_an_output(db_session, user, monkeypatch):
     document = _analyzed(db_session, user)
