@@ -62,6 +62,16 @@
   font-size: 0.9rem;
 }
 
+.layout__footer .layout__inner {
+  flex-wrap: wrap;
+}
+
+.layout__footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
 .brand {
   display: inline-flex;
   align-items: center;

@@ -38,7 +38,14 @@ export default function Layout() {
       </main>
       <footer className="layout__footer">
         <div className="layout__inner">
-          An assistive tool: always review the result before sharing a document.
+          <span>
+            An assistive tool: always review the result before sharing a
+            document.
+          </span>
+          <nav className="layout__footer-nav" aria-label="Information">
+            <Link to="/why-pii">Why PII matters</Link>
+            <Link to="/privacy">How we handle your data</Link>
+          </nav>
         </div>
       </footer>
     </div>

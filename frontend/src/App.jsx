@@ -7,8 +7,10 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Privacy from "./pages/Privacy.jsx";
 import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
+import WhyPii from "./pages/WhyPii.jsx";
 const LazyReview = lazy(() => import("./pages/Review.jsx"));
 
 export default function App() {
@@ -18,6 +20,9 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/why-pii" element={<WhyPii />} />
+        <Route path="/privacy" element={<Privacy />} />
+
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />

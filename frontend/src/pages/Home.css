@@ -51,3 +51,8 @@
   gap: var(--space-3);
   margin-bottom: var(--space-4);
 }
+
+.home__more {
+  margin-top: var(--space-5);
+  color: var(--color-muted);
+}

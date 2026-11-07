@@ -48,4 +48,14 @@ describe("Layout navigation", () => {
       screen.queryByRole("link", { name: "Dashboard" }),
     ).not.toBeInTheDocument();
   });
+
+  it("links to the information pages for everyone", () => {
+    renderLayout({ user: null });
+    expect(
+      screen.getByRole("link", { name: "Why PII matters" }),
+    ).toHaveAttribute("href", "/why-pii");
+    expect(
+      screen.getByRole("link", { name: "How we handle your data" }),
+    ).toHaveAttribute("href", "/privacy");
+  });
 });
