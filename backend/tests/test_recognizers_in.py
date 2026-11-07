@@ -1,6 +1,9 @@
 from pathlib import Path
 
-from app.pipeline.extract import extract_words
+import pytest
+
+from app.pipeline.extract import Word, extract_words
+from app.pipeline.locate import find_pii
 from app.pipeline.recognizers import detect_rules
 
 SAMPLE = Path(__file__).resolve().parents[2] / "samples" / "sample_digital_en.pdf"
@@ -85,3 +88,48 @@ def test_sample_pdf_now_yields_all_planted_entities():
     text = " ".join(w.text for w in extract_words(SAMPLE))
     found = {d.entity_type for d in detect_rules(text)}
     assert found == {"PAN", "AADHAAR", "PHONE_IN", "EMAIL", "BANK_ACCOUNT", "IFSC"}
+
+
+# --- Aadhaar numbers that OCR spaces out or gets partly wrong -------------------
+
+TO_DEVANAGARI = str.maketrans("0123456789", "०१२३४५६७८९")
+VALID_AADHAAR = "234567890124"  # passes the Verhoeff check
+
+
+def _aadhaar(text):
+    return [d for d in detect_rules(text) if d.entity_type == "AADHAAR"]
+
+
+def test_aadhaar_with_a_space_between_every_devanagari_digit():
+    spaced = " ".join(VALID_AADHAAR).translate(TO_DEVANAGARI)
+    [found] = _aadhaar(f"आधार: {spaced}")
+    assert found.checksum_ok is True
+    assert found.score == 0.95
+
+
+def test_aadhaar_garbled_by_ocr_is_still_found():
+    # Real Tesseract (eng+hin) output for a Hindi scan: a digit too many in the
+    # first group and a misread digit in the last, so it is not a clean 4-4-4.
+    [found] = _aadhaar("आधार: २३४४५ ६७८९ 0923 फोन: +91 98765 43210")
+    assert found.score == 0.40  # low confidence: the checksum cannot pass
+    assert found.text.startswith("२३४४५")
+
+
+def test_garbled_aadhaar_gets_a_box_on_every_word_of_it():
+    tokens = ["आधार:", "२३४४५", "६७८९", "0923"]
+    words = [Word(0, t, 10 + i * 60, 10, 65 + i * 60, 20) for i, t in enumerate(tokens)]
+    [finding] = [f for f in find_pii(words) if f.detection.entity_type == "AADHAAR"]
+    assert len(finding.boxes) == 3
+
+
+def test_spaced_digits_on_a_page_without_hindi_are_not_an_aadhaar_number():
+    assert _aadhaar("Aadhaar: " + " ".join(VALID_AADHAAR)) == []
+
+
+@pytest.mark.xfail(
+    reason="Known gap: on a page with Hindi text, years or amounts of 12 or more "
+    "digits are flagged as Aadhaar (low confidence).",
+)
+def test_hindi_pages_do_not_turn_years_or_amounts_into_aadhaar():
+    assert _aadhaar("वर्ष 2024 2025 2026 2027 की सूची") == []
+    assert _aadhaar("राशि 5000 1234 5678 9012 रुपये") == []
