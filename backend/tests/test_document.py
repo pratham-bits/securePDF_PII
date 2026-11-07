@@ -95,3 +95,86 @@ def test_junk_read_on_a_black_box_is_not_a_leak_but_a_confident_word_is():
     leaked = Word(0, "ABCDE1234F", 0.0, 0.0, 10.0, 10.0, 92.0)
     assert not _could_be_leaked_text(junk)
     assert _could_be_leaked_text(leaked)
+
+
+# --- digital pages that also carry images -------------------------------------
+
+LETTER = "This letter confirms the address change for the tenant as discussed today."
+
+
+def _text_image(text: str) -> bytes:
+    """A PNG of dark text on white, big enough for Tesseract to read."""
+    from PIL import ImageDraw
+
+    img = Image.new("L", (700, 120), 255)
+    ImageDraw.Draw(img).text((20, 45), text, fill=0)
+    img = img.resize((2100, 360))
+    out = io.BytesIO()
+    img.save(out, "PNG")
+    return out.getvalue()
+
+
+def _page_with_image(text: str, rect=(72, 120, 372, 170)) -> bytes:
+    with pymupdf.open() as doc:
+        page = doc.new_page()
+        page.insert_text((72, 72), LETTER, fontsize=10)
+        page.insert_image(pymupdf.Rect(*rect), stream=_text_image(text))
+        return doc.tobytes()
+
+
+def test_text_inside_an_embedded_image_is_found_on_a_digital_page():
+    data = _page_with_image("PAN ABCDE1234F")
+    extraction = extract_document(data)
+    assert extraction.modes == ["mixed"]
+    findings = find_pii(extraction.words)
+    pan = [f for f in findings if f.detection.entity_type == "PAN"]
+    assert len(pan) == 1
+    box = pan[0].boxes[0]
+    assert 72 <= box.x0 and box.x1 <= 372 and 120 <= box.y0 and box.y1 <= 170
+
+
+def test_redacting_text_in_an_image_is_verified_by_a_second_ocr_pass(tmp_path):
+    data = _page_with_image("PAN ABCDE1234F")
+    extraction = extract_document(data)
+    boxes = _boxes(extraction)
+    src = tmp_path / "in.pdf"
+    out = tmp_path / "out.pdf"
+    src.write_bytes(data)
+    redact_pdf(src, out, boxes)
+    assert verify_output(out.read_bytes(), boxes, extraction.modes) == []
+    assert len(verify_output(data, boxes, extraction.modes)) > 0  # unredacted: caught
+    assert not any(w.text == "ABCDE1234F" for w in extract_document(out.read_bytes()).words)
+
+
+def test_an_image_without_text_leaves_the_page_digital():
+    data = _page_with_image("")
+    extraction = extract_document(data)
+    assert extraction.modes == ["digital"]
+    assert all(w.conf is None for w in extraction.words)
+
+
+def test_text_already_in_the_text_layer_is_not_found_twice():
+    # A "searchable scan": the image shows the text and an invisible layer repeats it.
+    data = _page_with_image("PAN ABCDE1234F")
+    with pymupdf.open(stream=data) as doc:
+        page = doc[0]
+        page.insert_text((92, 150), "PAN ABCDE1234F", fontsize=36, render_mode=3)
+        data = doc.tobytes()
+    extraction = extract_document(data)
+    pan_words = [w for w in extraction.words if w.text == "ABCDE1234F"]
+    assert len(pan_words) == 1
+    assert pan_words[0].conf is None  # the text-layer copy was kept
+
+
+def test_tiny_images_are_not_read(monkeypatch):
+    calls = []
+    import app.pipeline.document as document
+
+    monkeypatch.setattr(document, "ocr_page", lambda *a, **k: calls.append(1) or [])
+    with pymupdf.open() as doc:
+        page = doc.new_page()
+        page.insert_text((72, 72), LETTER, fontsize=10)
+        page.insert_image(pymupdf.Rect(72, 100, 82, 110), stream=_text_image("PAN"))
+        data = doc.tobytes()
+    assert extract_document(data).modes == ["digital"]
+    assert calls == []

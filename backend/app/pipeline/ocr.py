@@ -10,8 +10,11 @@ from app.pipeline.extract import Word
 OCR_DPI = 300  # Tesseract works best at roughly 300 DPI
 
 
-def render_page(page: pymupdf.Page, dpi: int = OCR_DPI) -> Image.Image:
-    pix = page.get_pixmap(dpi=dpi)
+def render_page(
+    page: pymupdf.Page, dpi: int = OCR_DPI, clip: pymupdf.Rect | None = None
+) -> Image.Image:
+    """Render a page, or only the `clip` region of it, to an image."""
+    pix = page.get_pixmap(dpi=dpi, clip=clip)
     return Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
 
 
