@@ -35,7 +35,9 @@ export default function Home() {
   return (
     <div className="home">
       <section className="home__hero">
-        <h1>Redact personal information from PDFs. For real.</h1>
+        <h1>
+          Redact Personally Identifiable Information (PII) from PDFs. For real.
+        </h1>
         <p className="home__lead">
           SecurePDF finds Aadhaar and PAN numbers, bank details and more in
           digital and scanned PDFs, lets you review each finding, and removes
