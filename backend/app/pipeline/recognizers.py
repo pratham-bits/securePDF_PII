@@ -75,6 +75,32 @@ DOB_RE = re.compile(
     r"(?P<date>" + _DATE_VALUE + r")"
 )
 
+# --- Patterns: card, EPFO, ABHA and device identifiers -----------------------
+# CVV and expiry mean nothing without a label, so the label is always required.
+CVV_RE = re.compile(
+    r"(?i)(?:(?<![A-Za-z])(?:cvv2?|cvc2?)|security\s+code|सीवीवी)\s*[:\-#]?\s*"
+    r"(?P<num>[0-9]{3,4})(?![0-9])"
+)
+CARD_EXPIRY_RE = re.compile(
+    r"(?i)(?:(?<![A-Za-z])exp(?:iry|\.)?(?:\s+date)?|valid\s+(?:thru|through|till|until)|वैधता)"
+    r"\s*[:\-#]?\s*(?P<date>(?:0[1-9]|1[0-2])\s*/\s*(?:[0-9]{4}|[0-9]{2}))(?![0-9])"
+)
+UAN_RE = re.compile(
+    r"(?i)(?:(?<![A-Za-z])uan|यूएएन)\s*(?:no\.?|number|संख्या|नंबर)?\s*[:\-#]?\s*"
+    r"(?P<num>[0-9]{12})(?![0-9])"
+)
+# ABHA is 14 digits. The dashed 2-4-4-4 layout is specific enough to stand alone.
+ABHA_LABELLED_RE = re.compile(
+    r"(?i)(?:(?<![A-Za-z])abha|आभा|health\s*id)\s*(?:no\.?|number|संख्या|नंबर)?\s*[:\-#]?\s*"
+    r"(?P<num>[0-9]{2}(?:[ -]?[0-9]{4}){3})(?![0-9])"
+)
+ABHA_DASHED_RE = re.compile(r"(?<![0-9])[0-9]{2}-[0-9]{4}-[0-9]{4}-[0-9]{4}(?![0-9])")
+# With the label we skip the Luhn check, so an IMEI with one misread digit is still found.
+IMEI_RE = re.compile(
+    r"(?i)(?<![A-Za-z])imei\s*[0-9]?\s*(?:no\.?|number)?\s*[:\-#]?\s*"
+    r"(?P<num>[0-9](?:[ -]?[0-9]){14})(?![0-9])"
+)
+
 PASSPORT_CONTEXT = ("passport", "पासपोर्ट")
 VOTER_CONTEXT = ("voter", "epic", "मतदाता", "निर्वाचन")
 DL_CONTEXT = ("driving", "licence", "license", "dl no", "d.l.", "ड्राइविंग", "लाइसेंस")
@@ -204,6 +230,27 @@ def detect_rules(text: str) -> list[Detection]:
     for m in VEHICLE_RE.finditer(norm):
         found.append(_make("VEHICLE_REG", m, text, 0.70))
 
+    for m in CVV_RE.finditer(norm):
+        found.append(_make_span("CVV", m.start("num"), m.end("num"), text, 0.92))
+
+    for m in CARD_EXPIRY_RE.finditer(norm):
+        found.append(
+            _make_span("CARD_EXPIRY", m.start("date"), m.end("date"), text, 0.85)
+        )
+
+    for m in UAN_RE.finditer(norm):
+        found.append(_make_span("UAN", m.start("num"), m.end("num"), text, 0.96))
+
+    for m in ABHA_LABELLED_RE.finditer(norm):
+        found.append(_make_span("ABHA", m.start("num"), m.end("num"), text, 0.95))
+
+    for m in ABHA_DASHED_RE.finditer(norm):
+        found.append(_make("ABHA", m, text, 0.85))
+
+    for m in IMEI_RE.finditer(norm):
+        ok = luhn_valid(re.sub(r"\D", "", m.group("num")))
+        found.append(_make_span("IMEI", m.start("num"), m.end("num"), text, 0.96, ok))
+    
     for m in DOB_RE.finditer(norm):
         found.append(
             _make_span("DATE_OF_BIRTH", m.start("date"), m.end("date"), text, 0.90)

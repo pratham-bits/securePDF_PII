@@ -133,3 +133,66 @@ def test_spaced_digits_on_a_page_without_hindi_are_not_an_aadhaar_number():
 def test_hindi_pages_do_not_turn_years_or_amounts_into_aadhaar():
     assert _aadhaar("वर्ष 2024 2025 2026 2027 की सूची") == []
     assert _aadhaar("राशि 5000 1234 5678 9012 रुपये") == []
+
+# --- Card CVV and expiry, UAN, ABHA and IMEI -------------------------------------
+
+VALID_IMEI = "490154203237518"  # passes the Luhn check
+
+
+def _found(text, entity_type):
+    return [d for d in detect_rules(text) if d.entity_type == entity_type]
+
+
+def test_cvv_needs_its_label():
+    [cvv] = _found("Card no 4111 1111 1111 1111 CVV: 123", "CVV")
+    assert cvv.text == "123"
+    assert _found("Ref 123 total 4567", "CVV") == []
+
+
+def test_cvv_in_hindi_with_devanagari_digits():
+    [cvv] = _found("सीवीवी: १२३", "CVV")
+    assert cvv.text == "१२३"
+
+
+def test_card_expiry_needs_its_label():
+    [exp] = _found("Valid thru 08/27", "CARD_EXPIRY")
+    assert exp.text == "08/27"
+    assert _found("Expiry Date: 12 / 2029", "CARD_EXPIRY")
+    assert _found("Issued 08/27 at branch", "CARD_EXPIRY") == []
+    assert _found("expenses 08/27", "CARD_EXPIRY") == []
+
+
+def test_uan_needs_its_label():
+    [uan] = _found("UAN: 100123456789", "UAN")
+    assert uan.text == "100123456789"
+    assert _found("Ref 100123456789", "UAN") == []
+
+
+def test_abha_dashed_format_stands_alone():
+    [abha] = _found("Health record 91-1234-5678-9012", "ABHA")
+    assert abha.text == "91-1234-5678-9012"
+
+
+def test_abha_labelled_accepts_other_spacing():
+    [abha] = _found("ABHA number: 91 1234 5678 9012", "ABHA")
+    assert abha.score == 0.95
+
+
+def test_a_plain_14_digit_number_is_not_an_abha_number():
+    assert _found("Order 91123456789012", "ABHA") == []
+
+
+def test_imei_is_found_with_its_label_and_luhn_result():
+    [imei] = _found(f"IMEI: {VALID_IMEI}", "IMEI")
+    assert imei.checksum_ok is True
+
+
+def test_imei_with_one_misread_digit_is_still_found_via_the_label():
+    bad = VALID_IMEI[:-1] + "9"
+    [imei] = _found(f"IMEI {bad}", "IMEI")
+    assert imei.checksum_ok is False
+
+
+def test_labelled_imei_wins_over_the_card_rule():
+    types = {d.entity_type for d in detect_rules(f"IMEI: {VALID_IMEI}")}
+    assert types == {"IMEI"}

@@ -7,6 +7,9 @@ MANDATORY = {
     "DRIVING_LICENCE",
     "CREDIT_CARD",
     "BANK_ACCOUNT",
+    "CVV",
+    "UAN",
+    "ABHA",
 }
 RECOMMENDED = {
     "EMAIL",
@@ -16,9 +19,9 @@ RECOMMENDED = {
     "UPI_ID",
     "VEHICLE_REG",
     "DATE_OF_BIRTH",
+    "IMEI",
 }
-OPTIONAL = {"ORGANIZATION", "LOCATION", "DATE"}  # used once the ML model arrives
-
+OPTIONAL = {"ORGANIZATION", "LOCATION", "DATE", "CARD_EXPIRY"}  # used once the ML model arrives
 
 def tier_for(entity_type: str) -> str:
     if entity_type in MANDATORY:
