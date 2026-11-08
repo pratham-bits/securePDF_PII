@@ -20,6 +20,9 @@ uploads/
 *.log
 
 # models and training artifacts
+# generated datasets and your own test documents (reproducible or private)
+ml/data/
+ml/real/
 ml/models/
 *.pt
 *.safetensors
