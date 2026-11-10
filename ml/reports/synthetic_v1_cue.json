@@ -3,7 +3,7 @@
   "seconds_per_doc": 0.0,
   "seconds_per_1000_chars": 0.0001,
   "results": {
-    "0.0": {
+    "0.0|raw": {
       "by_label": {
         "ADDRESS": {
           "gold": 240,
