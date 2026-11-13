@@ -6,6 +6,7 @@ import ConfirmDialog from "../components/ConfirmDialog.jsx";
 import FindingsPanel from "../components/FindingsPanel.jsx";
 import PdfViewer from "../components/PdfViewer.jsx";
 import RedactionPanel from "../components/RedactionPanel.jsx";
+import FeedbackCard from "../components/FeedbackCard.jsx";
 import { saveBlob } from "../lib/download.js";
 import { entityLabel } from "../lib/entities.js";
 import "./Review.css";
@@ -212,6 +213,7 @@ export default function Review() {
         onDownload={handleDownload}
       />
 
+      {doc.status === "redacted" && <FeedbackCard />}
       <div className="review__toolbar">
         <button
           type="button"

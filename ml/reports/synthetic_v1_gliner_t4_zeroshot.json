@@ -1,0 +1,2531 @@
+{
+  "n_docs": 240,
+  "seconds_per_doc": 0.0482,
+  "seconds_per_1000_chars": 0.1787,
+  "results": {
+    "0.1|raw": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 956,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.7122,
+          "char_precision": 0.9712,
+          "full_cover": 0.0
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2973,
+          "precision": 0.4416,
+          "recall": 0.6545,
+          "f1": 0.5274,
+          "char_recall": 0.7688,
+          "char_precision": 0.9053,
+          "full_cover": 0.6765
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 768,
+          "precision": 0.9258,
+          "recall": 0.9834,
+          "f1": 0.9537,
+          "char_recall": 0.9975,
+          "char_precision": 0.9342,
+          "full_cover": 0.9972
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 404,
+          "precision": 0.297,
+          "recall": 0.5,
+          "f1": 0.3726,
+          "char_recall": 0.5502,
+          "char_precision": 0.7292,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 845,
+          "precision": 0.5633,
+          "recall": 0.5928,
+          "f1": 0.5777,
+          "char_recall": 0.7112,
+          "char_precision": 0.8364,
+          "full_cover": 0.6314
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1665,
+          "precision": 0.5315,
+          "recall": 0.8745,
+          "f1": 0.6612,
+          "char_recall": 0.9013,
+          "char_precision": 0.9212,
+          "full_cover": 0.8765
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 1308,
+          "precision": 0.3272,
+          "recall": 0.4306,
+          "f1": 0.3718,
+          "char_recall": 0.6284,
+          "char_precision": 0.882,
+          "full_cover": 0.4728
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1453,
+          "precision": 0.512,
+          "recall": 0.7113,
+          "f1": 0.5954,
+          "char_recall": 0.7967,
+          "char_precision": 0.9072,
+          "full_cover": 0.7333
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 716,
+          "precision": 0.3045,
+          "recall": 0.545,
+          "f1": 0.3907,
+          "char_recall": 0.7319,
+          "char_precision": 0.8698,
+          "full_cover": 0.565
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 804,
+          "precision": 0.4366,
+          "recall": 0.6268,
+          "f1": 0.5147,
+          "char_recall": 0.7551,
+          "char_precision": 0.931,
+          "full_cover": 0.65
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 496,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.6966,
+          "char_precision": 0.9971,
+          "full_cover": 0.0
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 460,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.7293,
+          "char_precision": 0.9454,
+          "full_cover": 0.0
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1665,
+          "precision": 0.5315,
+          "recall": 0.8745,
+          "f1": 0.6612,
+          "char_recall": 0.9013,
+          "char_precision": 0.9212,
+          "full_cover": 0.8765
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 1308,
+          "precision": 0.3272,
+          "recall": 0.4306,
+          "f1": 0.3718,
+          "char_recall": 0.6284,
+          "char_precision": 0.882,
+          "full_cover": 0.4728
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 406,
+          "precision": 0.9015,
+          "recall": 1.0,
+          "f1": 0.9482,
+          "char_recall": 1.0,
+          "char_precision": 0.8927,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 362,
+          "precision": 0.953,
+          "recall": 0.9664,
+          "f1": 0.9597,
+          "char_recall": 0.9948,
+          "char_precision": 0.9832,
+          "full_cover": 0.9944
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 303,
+          "precision": 0.396,
+          "recall": 1.0,
+          "f1": 0.5673,
+          "char_recall": 1.0,
+          "char_precision": 0.7995,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 101,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.1271,
+          "char_precision": 0.4416,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 460,
+          "precision": 0.8674,
+          "recall": 0.9828,
+          "f1": 0.9215,
+          "char_recall": 0.9949,
+          "char_precision": 0.9606,
+          "full_cover": 0.9852
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 385,
+          "precision": 0.2,
+          "recall": 0.194,
+          "f1": 0.197,
+          "char_recall": 0.4053,
+          "char_precision": 0.6232,
+          "full_cover": 0.2695
+        }
+      }
+    },
+    "0.1|merged": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 379,
+          "precision": 0.2137,
+          "recall": 0.3375,
+          "f1": 0.2617,
+          "char_recall": 0.8098,
+          "char_precision": 0.9739,
+          "full_cover": 0.3792
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2350,
+          "precision": 0.5911,
+          "recall": 0.6924,
+          "f1": 0.6378,
+          "char_recall": 0.8005,
+          "char_precision": 0.9081,
+          "full_cover": 0.7318
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 753,
+          "precision": 0.9243,
+          "recall": 0.9627,
+          "f1": 0.9431,
+          "char_recall": 0.9975,
+          "char_precision": 0.9326,
+          "full_cover": 0.9972
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 401,
+          "precision": 0.3017,
+          "recall": 0.5042,
+          "f1": 0.3775,
+          "char_recall": 0.5506,
+          "char_precision": 0.7292,
+          "full_cover": 0.5042
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 817,
+          "precision": 0.5936,
+          "recall": 0.604,
+          "f1": 0.5988,
+          "char_recall": 0.7138,
+          "char_precision": 0.8369,
+          "full_cover": 0.6538
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1394,
+          "precision": 0.6463,
+          "recall": 0.8903,
+          "f1": 0.7489,
+          "char_recall": 0.9298,
+          "char_precision": 0.9235,
+          "full_cover": 0.8923
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 956,
+          "precision": 0.5105,
+          "recall": 0.4909,
+          "f1": 0.5005,
+          "char_recall": 0.6636,
+          "char_precision": 0.8861,
+          "full_cover": 0.5684
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1209,
+          "precision": 0.6452,
+          "recall": 0.7457,
+          "f1": 0.6918,
+          "char_recall": 0.8222,
+          "char_precision": 0.9092,
+          "full_cover": 0.7849
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 508,
+          "precision": 0.5039,
+          "recall": 0.64,
+          "f1": 0.5639,
+          "char_recall": 0.7791,
+          "char_precision": 0.8767,
+          "full_cover": 0.66
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 633,
+          "precision": 0.5577,
+          "recall": 0.6304,
+          "f1": 0.5918,
+          "char_recall": 0.7842,
+          "char_precision": 0.9322,
+          "full_cover": 0.6839
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 226,
+          "precision": 0.0664,
+          "recall": 0.125,
+          "f1": 0.0867,
+          "char_recall": 0.785,
+          "char_precision": 0.9974,
+          "full_cover": 0.125
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 153,
+          "precision": 0.4314,
+          "recall": 0.55,
+          "f1": 0.4835,
+          "char_recall": 0.837,
+          "char_precision": 0.9509,
+          "full_cover": 0.6333
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1394,
+          "precision": 0.6463,
+          "recall": 0.8903,
+          "f1": 0.7489,
+          "char_recall": 0.9298,
+          "char_precision": 0.9235,
+          "full_cover": 0.8923
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 956,
+          "precision": 0.5105,
+          "recall": 0.4909,
+          "f1": 0.5005,
+          "char_recall": 0.6636,
+          "char_precision": 0.8861,
+          "full_cover": 0.5684
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 406,
+          "precision": 0.9015,
+          "recall": 1.0,
+          "f1": 0.9482,
+          "char_recall": 1.0,
+          "char_precision": 0.8927,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 347,
+          "precision": 0.951,
+          "recall": 0.9244,
+          "f1": 0.9375,
+          "char_recall": 0.9948,
+          "char_precision": 0.9796,
+          "full_cover": 0.9944
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 303,
+          "precision": 0.396,
+          "recall": 1.0,
+          "f1": 0.5673,
+          "char_recall": 1.0,
+          "char_precision": 0.7995,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 98,
+          "precision": 0.0102,
+          "recall": 0.0083,
+          "f1": 0.0092,
+          "char_recall": 0.1278,
+          "char_precision": 0.4424,
+          "full_cover": 0.0083
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 459,
+          "precision": 0.8715,
+          "recall": 0.9852,
+          "f1": 0.9249,
+          "char_recall": 0.9951,
+          "char_precision": 0.9606,
+          "full_cover": 0.9877
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 358,
+          "precision": 0.2374,
+          "recall": 0.2141,
+          "f1": 0.2251,
+          "char_recall": 0.4106,
+          "char_precision": 0.6263,
+          "full_cover": 0.3123
+        }
+      }
+    },
+    "0.1|merged+cue": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 299,
+          "precision": 0.5485,
+          "recall": 0.6833,
+          "f1": 0.6085,
+          "char_recall": 0.9103,
+          "char_precision": 0.9768,
+          "full_cover": 0.725
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2427,
+          "precision": 0.6922,
+          "recall": 0.8375,
+          "f1": 0.7579,
+          "char_recall": 0.9045,
+          "char_precision": 0.9127,
+          "full_cover": 0.8988
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 753,
+          "precision": 0.9243,
+          "recall": 0.9627,
+          "f1": 0.9431,
+          "char_recall": 0.9975,
+          "char_precision": 0.9326,
+          "full_cover": 0.9972
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 401,
+          "precision": 0.3017,
+          "recall": 0.5042,
+          "f1": 0.3775,
+          "char_recall": 0.5506,
+          "char_precision": 0.7292,
+          "full_cover": 0.5042
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 974,
+          "precision": 0.7146,
+          "recall": 0.8667,
+          "f1": 0.7833,
+          "char_recall": 0.9797,
+          "char_precision": 0.8605,
+          "full_cover": 0.9738
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1326,
+          "precision": 0.7353,
+          "recall": 0.9634,
+          "f1": 0.834,
+          "char_recall": 0.9768,
+          "char_precision": 0.9269,
+          "full_cover": 0.9644
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 1101,
+          "precision": 0.6403,
+          "recall": 0.7093,
+          "f1": 0.673,
+          "char_recall": 0.8279,
+          "char_precision": 0.8955,
+          "full_cover": 0.832
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1271,
+          "precision": 0.7459,
+          "recall": 0.9063,
+          "f1": 0.8183,
+          "char_recall": 0.9458,
+          "char_precision": 0.9202,
+          "full_cover": 0.9598
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 489,
+          "precision": 0.7198,
+          "recall": 0.88,
+          "f1": 0.7919,
+          "char_recall": 0.9025,
+          "char_precision": 0.8918,
+          "full_cover": 0.9
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 667,
+          "precision": 0.5697,
+          "recall": 0.6786,
+          "f1": 0.6194,
+          "char_recall": 0.8426,
+          "char_precision": 0.9179,
+          "full_cover": 0.7839
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 157,
+          "precision": 0.535,
+          "recall": 0.7,
+          "f1": 0.6065,
+          "char_recall": 0.928,
+          "char_precision": 0.9978,
+          "full_cover": 0.7
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 142,
+          "precision": 0.5634,
+          "recall": 0.6667,
+          "f1": 0.6107,
+          "char_recall": 0.8908,
+          "char_precision": 0.9537,
+          "full_cover": 0.75
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1326,
+          "precision": 0.7353,
+          "recall": 0.9634,
+          "f1": 0.834,
+          "char_recall": 0.9768,
+          "char_precision": 0.9269,
+          "full_cover": 0.9644
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 1101,
+          "precision": 0.6403,
+          "recall": 0.7093,
+          "f1": 0.673,
+          "char_recall": 0.8279,
+          "char_precision": 0.8955,
+          "full_cover": 0.832
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 406,
+          "precision": 0.9015,
+          "recall": 1.0,
+          "f1": 0.9482,
+          "char_recall": 1.0,
+          "char_precision": 0.8927,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 347,
+          "precision": 0.951,
+          "recall": 0.9244,
+          "f1": 0.9375,
+          "char_recall": 0.9948,
+          "char_precision": 0.9796,
+          "full_cover": 0.9944
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 303,
+          "precision": 0.396,
+          "recall": 1.0,
+          "f1": 0.5673,
+          "char_recall": 1.0,
+          "char_precision": 0.7995,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 98,
+          "precision": 0.0102,
+          "recall": 0.0083,
+          "f1": 0.0092,
+          "char_recall": 0.1278,
+          "char_precision": 0.4424,
+          "full_cover": 0.0083
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 460,
+          "precision": 0.8804,
+          "recall": 0.9975,
+          "f1": 0.9353,
+          "char_recall": 1.0,
+          "char_precision": 0.9608,
+          "full_cover": 1.0
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 514,
+          "precision": 0.5661,
+          "recall": 0.733,
+          "f1": 0.6388,
+          "char_recall": 0.9577,
+          "char_precision": 0.77,
+          "full_cover": 0.9471
+        }
+      }
+    },
+    "0.2|raw": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 906,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.6837,
+          "char_precision": 0.9781,
+          "full_cover": 0.0
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2670,
+          "precision": 0.4865,
+          "recall": 0.6476,
+          "f1": 0.5556,
+          "char_recall": 0.7362,
+          "char_precision": 0.9397,
+          "full_cover": 0.664
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 743,
+          "precision": 0.9569,
+          "recall": 0.9834,
+          "f1": 0.97,
+          "char_recall": 0.9956,
+          "char_precision": 0.9639,
+          "full_cover": 0.9959
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 339,
+          "precision": 0.354,
+          "recall": 0.5,
+          "f1": 0.4145,
+          "char_recall": 0.5075,
+          "char_precision": 0.7701,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 682,
+          "precision": 0.6789,
+          "recall": 0.5766,
+          "f1": 0.6236,
+          "char_recall": 0.6701,
+          "char_precision": 0.9033,
+          "full_cover": 0.6052
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1552,
+          "precision": 0.5696,
+          "recall": 0.8735,
+          "f1": 0.6896,
+          "char_recall": 0.889,
+          "char_precision": 0.9524,
+          "full_cover": 0.8745
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 1118,
+          "precision": 0.3712,
+          "recall": 0.4175,
+          "f1": 0.393,
+          "char_recall": 0.5742,
+          "char_precision": 0.9195,
+          "full_cover": 0.4497
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1336,
+          "precision": 0.5509,
+          "recall": 0.7036,
+          "f1": 0.618,
+          "char_recall": 0.7634,
+          "char_precision": 0.9318,
+          "full_cover": 0.7208
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 586,
+          "precision": 0.3669,
+          "recall": 0.5375,
+          "f1": 0.4361,
+          "char_recall": 0.6976,
+          "char_precision": 0.9503,
+          "full_cover": 0.55
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 748,
+          "precision": 0.4652,
+          "recall": 0.6214,
+          "f1": 0.5321,
+          "char_recall": 0.7246,
+          "char_precision": 0.9446,
+          "full_cover": 0.6393
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 470,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.6615,
+          "char_precision": 1.0,
+          "full_cover": 0.0
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 436,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.7082,
+          "char_precision": 0.9566,
+          "full_cover": 0.0
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1552,
+          "precision": 0.5696,
+          "recall": 0.8735,
+          "f1": 0.6896,
+          "char_recall": 0.889,
+          "char_precision": 0.9524,
+          "full_cover": 0.8745
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 1118,
+          "precision": 0.3712,
+          "recall": 0.4175,
+          "f1": 0.393,
+          "char_recall": 0.5742,
+          "char_precision": 0.9195,
+          "full_cover": 0.4497
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 387,
+          "precision": 0.9457,
+          "recall": 1.0,
+          "f1": 0.9721,
+          "char_recall": 1.0,
+          "char_precision": 0.9407,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 356,
+          "precision": 0.9691,
+          "recall": 0.9664,
+          "f1": 0.9677,
+          "char_recall": 0.9909,
+          "char_precision": 0.9904,
+          "full_cover": 0.9916
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 283,
+          "precision": 0.424,
+          "recall": 1.0,
+          "f1": 0.5955,
+          "char_recall": 1.0,
+          "char_precision": 0.8382,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 56,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0441,
+          "char_precision": 0.2819,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 412,
+          "precision": 0.966,
+          "recall": 0.9803,
+          "f1": 0.9731,
+          "char_recall": 0.9931,
+          "char_precision": 0.9949,
+          "full_cover": 0.9828
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 270,
+          "precision": 0.2407,
+          "recall": 0.1637,
+          "f1": 0.1949,
+          "char_recall": 0.3217,
+          "char_precision": 0.6913,
+          "full_cover": 0.2191
+        }
+      }
+    },
+    "0.2|merged": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 393,
+          "precision": 0.145,
+          "recall": 0.2375,
+          "f1": 0.1801,
+          "char_recall": 0.7721,
+          "char_precision": 0.9801,
+          "full_cover": 0.2792
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2130,
+          "precision": 0.6343,
+          "recall": 0.6735,
+          "f1": 0.6533,
+          "char_recall": 0.7645,
+          "char_precision": 0.9413,
+          "full_cover": 0.7034
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 732,
+          "precision": 0.9563,
+          "recall": 0.9682,
+          "f1": 0.9622,
+          "char_recall": 0.9956,
+          "char_precision": 0.9627,
+          "full_cover": 0.9959
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 338,
+          "precision": 0.355,
+          "recall": 0.5,
+          "f1": 0.4152,
+          "char_recall": 0.5075,
+          "char_precision": 0.7699,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 667,
+          "precision": 0.7031,
+          "recall": 0.5841,
+          "f1": 0.6381,
+          "char_recall": 0.6715,
+          "char_precision": 0.9035,
+          "full_cover": 0.6189
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1319,
+          "precision": 0.6725,
+          "recall": 0.8765,
+          "f1": 0.7611,
+          "char_recall": 0.9141,
+          "char_precision": 0.9537,
+          "full_cover": 0.8775
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 811,
+          "precision": 0.5721,
+          "recall": 0.4668,
+          "f1": 0.5141,
+          "char_recall": 0.6061,
+          "char_precision": 0.9222,
+          "full_cover": 0.5262
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1139,
+          "precision": 0.6637,
+          "recall": 0.7228,
+          "f1": 0.692,
+          "char_recall": 0.7849,
+          "char_precision": 0.933,
+          "full_cover": 0.7533
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 401,
+          "precision": 0.6135,
+          "recall": 0.615,
+          "f1": 0.6142,
+          "char_recall": 0.7399,
+          "char_precision": 0.953,
+          "full_cover": 0.6275
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 590,
+          "precision": 0.5915,
+          "recall": 0.6232,
+          "f1": 0.6069,
+          "char_recall": 0.7527,
+          "char_precision": 0.9459,
+          "full_cover": 0.6643
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 238,
+          "precision": 0.0084,
+          "recall": 0.0167,
+          "f1": 0.0112,
+          "char_recall": 0.7392,
+          "char_precision": 1.0,
+          "full_cover": 0.0167
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 155,
+          "precision": 0.3548,
+          "recall": 0.4583,
+          "f1": 0.4,
+          "char_recall": 0.8082,
+          "char_precision": 0.9609,
+          "full_cover": 0.5417
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1319,
+          "precision": 0.6725,
+          "recall": 0.8765,
+          "f1": 0.7611,
+          "char_recall": 0.9141,
+          "char_precision": 0.9537,
+          "full_cover": 0.8775
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 811,
+          "precision": 0.5721,
+          "recall": 0.4668,
+          "f1": 0.5141,
+          "char_recall": 0.6061,
+          "char_precision": 0.9222,
+          "full_cover": 0.5262
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 387,
+          "precision": 0.9457,
+          "recall": 1.0,
+          "f1": 0.9721,
+          "char_recall": 1.0,
+          "char_precision": 0.9407,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 345,
+          "precision": 0.9681,
+          "recall": 0.9356,
+          "f1": 0.9516,
+          "char_recall": 0.9909,
+          "char_precision": 0.9877,
+          "full_cover": 0.9916
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 283,
+          "precision": 0.424,
+          "recall": 1.0,
+          "f1": 0.5955,
+          "char_recall": 1.0,
+          "char_precision": 0.8382,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 55,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0441,
+          "char_precision": 0.2812,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 411,
+          "precision": 0.9708,
+          "recall": 0.9828,
+          "f1": 0.9768,
+          "char_recall": 0.9933,
+          "char_precision": 0.9949,
+          "full_cover": 0.9852
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 256,
+          "precision": 0.2734,
+          "recall": 0.1763,
+          "f1": 0.2144,
+          "char_recall": 0.3245,
+          "char_precision": 0.6931,
+          "full_cover": 0.2443
+        }
+      }
+    },
+    "0.2|merged+cue": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 292,
+          "precision": 0.5548,
+          "recall": 0.675,
+          "f1": 0.609,
+          "char_recall": 0.9076,
+          "char_precision": 0.983,
+          "full_cover": 0.7167
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2231,
+          "precision": 0.758,
+          "recall": 0.843,
+          "f1": 0.7982,
+          "char_recall": 0.8936,
+          "char_precision": 0.9437,
+          "full_cover": 0.8953
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 732,
+          "precision": 0.9563,
+          "recall": 0.9682,
+          "f1": 0.9622,
+          "char_recall": 0.9956,
+          "char_precision": 0.9627,
+          "full_cover": 0.9959
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 338,
+          "precision": 0.355,
+          "recall": 0.5,
+          "f1": 0.4152,
+          "char_recall": 0.5075,
+          "char_precision": 0.7699,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 869,
+          "precision": 0.8136,
+          "recall": 0.8804,
+          "f1": 0.8457,
+          "char_recall": 0.977,
+          "char_precision": 0.9143,
+          "full_cover": 0.9714
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1241,
+          "precision": 0.784,
+          "recall": 0.9615,
+          "f1": 0.8637,
+          "char_recall": 0.9757,
+          "char_precision": 0.9565,
+          "full_cover": 0.9625
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 990,
+          "precision": 0.7253,
+          "recall": 0.7223,
+          "f1": 0.7238,
+          "char_recall": 0.8065,
+          "char_precision": 0.9277,
+          "full_cover": 0.827
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1206,
+          "precision": 0.7935,
+          "recall": 0.9149,
+          "f1": 0.8499,
+          "char_recall": 0.9406,
+          "char_precision": 0.9434,
+          "full_cover": 0.9589
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 393,
+          "precision": 0.9033,
+          "recall": 0.8875,
+          "f1": 0.8953,
+          "char_recall": 0.8961,
+          "char_precision": 0.9609,
+          "full_cover": 0.9
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 632,
+          "precision": 0.5997,
+          "recall": 0.6768,
+          "f1": 0.6359,
+          "char_recall": 0.8193,
+          "char_precision": 0.9297,
+          "full_cover": 0.7732
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 158,
+          "precision": 0.519,
+          "recall": 0.6833,
+          "f1": 0.5899,
+          "char_recall": 0.9246,
+          "char_precision": 1.0,
+          "full_cover": 0.6833
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 134,
+          "precision": 0.597,
+          "recall": 0.6667,
+          "f1": 0.6299,
+          "char_recall": 0.8889,
+          "char_precision": 0.9643,
+          "full_cover": 0.75
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1241,
+          "precision": 0.784,
+          "recall": 0.9615,
+          "f1": 0.8637,
+          "char_recall": 0.9757,
+          "char_precision": 0.9565,
+          "full_cover": 0.9625
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 990,
+          "precision": 0.7253,
+          "recall": 0.7223,
+          "f1": 0.7238,
+          "char_recall": 0.8065,
+          "char_precision": 0.9277,
+          "full_cover": 0.827
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 387,
+          "precision": 0.9457,
+          "recall": 1.0,
+          "f1": 0.9721,
+          "char_recall": 1.0,
+          "char_precision": 0.9407,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 345,
+          "precision": 0.9681,
+          "recall": 0.9356,
+          "f1": 0.9516,
+          "char_recall": 0.9909,
+          "char_precision": 0.9877,
+          "full_cover": 0.9916
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 283,
+          "precision": 0.424,
+          "recall": 1.0,
+          "f1": 0.5955,
+          "char_recall": 1.0,
+          "char_precision": 0.8382,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 55,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0441,
+          "char_precision": 0.2812,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 413,
+          "precision": 0.9806,
+          "recall": 0.9975,
+          "f1": 0.989,
+          "char_recall": 1.0,
+          "char_precision": 0.9949,
+          "full_cover": 1.0
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 456,
+          "precision": 0.6623,
+          "recall": 0.7607,
+          "f1": 0.7081,
+          "char_recall": 0.9523,
+          "char_precision": 0.8375,
+          "full_cover": 0.9421
+        }
+      }
+    },
+    "0.3|raw": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 863,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.661,
+          "char_precision": 0.9793,
+          "full_cover": 0.0
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2511,
+          "precision": 0.5121,
+          "recall": 0.6411,
+          "f1": 0.5694,
+          "char_recall": 0.716,
+          "char_precision": 0.9584,
+          "full_cover": 0.653
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 718,
+          "precision": 0.9861,
+          "recall": 0.9793,
+          "f1": 0.9827,
+          "char_recall": 0.9893,
+          "char_precision": 0.994,
+          "full_cover": 0.9903
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 309,
+          "precision": 0.3883,
+          "recall": 0.5,
+          "f1": 0.4371,
+          "char_recall": 0.4979,
+          "char_precision": 0.8001,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 621,
+          "precision": 0.7327,
+          "recall": 0.5666,
+          "f1": 0.639,
+          "char_recall": 0.6417,
+          "char_precision": 0.9253,
+          "full_cover": 0.5853
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1494,
+          "precision": 0.591,
+          "recall": 0.8725,
+          "f1": 0.7047,
+          "char_recall": 0.8817,
+          "char_precision": 0.9708,
+          "full_cover": 0.8735
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 1017,
+          "precision": 0.3963,
+          "recall": 0.4054,
+          "f1": 0.4008,
+          "char_recall": 0.5403,
+          "char_precision": 0.9376,
+          "full_cover": 0.4286
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1257,
+          "precision": 0.5792,
+          "recall": 0.696,
+          "f1": 0.6323,
+          "char_recall": 0.7432,
+          "char_precision": 0.9481,
+          "full_cover": 0.7094
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 535,
+          "precision": 0.3963,
+          "recall": 0.53,
+          "f1": 0.4535,
+          "char_recall": 0.6729,
+          "char_precision": 0.9929,
+          "full_cover": 0.5375
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 719,
+          "precision": 0.4812,
+          "recall": 0.6179,
+          "f1": 0.541,
+          "char_recall": 0.708,
+          "char_precision": 0.9503,
+          "full_cover": 0.6304
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 451,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.6419,
+          "char_precision": 1.0,
+          "full_cover": 0.0
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 412,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.6819,
+          "char_precision": 0.9587,
+          "full_cover": 0.0
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1494,
+          "precision": 0.591,
+          "recall": 0.8725,
+          "f1": 0.7047,
+          "char_recall": 0.8817,
+          "char_precision": 0.9708,
+          "full_cover": 0.8735
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 1017,
+          "precision": 0.3963,
+          "recall": 0.4054,
+          "f1": 0.4008,
+          "char_recall": 0.5403,
+          "char_precision": 0.9376,
+          "full_cover": 0.4286
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 368,
+          "precision": 0.9946,
+          "recall": 1.0,
+          "f1": 0.9973,
+          "char_recall": 1.0,
+          "char_precision": 0.994,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 350,
+          "precision": 0.9771,
+          "recall": 0.958,
+          "f1": 0.9675,
+          "char_recall": 0.9778,
+          "char_precision": 0.994,
+          "full_cover": 0.9804
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 270,
+          "precision": 0.4444,
+          "recall": 1.0,
+          "f1": 0.6153,
+          "char_recall": 1.0,
+          "char_precision": 0.8566,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 39,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0256,
+          "char_precision": 0.2332,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 405,
+          "precision": 0.9802,
+          "recall": 0.9778,
+          "f1": 0.979,
+          "char_recall": 0.9898,
+          "char_precision": 0.9976,
+          "full_cover": 0.9803
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 216,
+          "precision": 0.2685,
+          "recall": 0.1461,
+          "f1": 0.1892,
+          "char_recall": 0.2663,
+          "char_precision": 0.7171,
+          "full_cover": 0.1814
+        }
+      }
+    },
+    "0.3|merged": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 399,
+          "precision": 0.1128,
+          "recall": 0.1875,
+          "f1": 0.1409,
+          "char_recall": 0.7414,
+          "char_precision": 0.981,
+          "full_cover": 0.2292
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2033,
+          "precision": 0.6513,
+          "recall": 0.66,
+          "f1": 0.6556,
+          "char_recall": 0.7416,
+          "char_precision": 0.9593,
+          "full_cover": 0.6825
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 710,
+          "precision": 0.9859,
+          "recall": 0.9682,
+          "f1": 0.977,
+          "char_recall": 0.9893,
+          "char_precision": 0.9931,
+          "full_cover": 0.9903
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 309,
+          "precision": 0.3883,
+          "recall": 0.5,
+          "f1": 0.4371,
+          "char_recall": 0.4979,
+          "char_precision": 0.8001,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 615,
+          "precision": 0.7431,
+          "recall": 0.5691,
+          "f1": 0.6446,
+          "char_recall": 0.6423,
+          "char_precision": 0.9254,
+          "full_cover": 0.5903
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1281,
+          "precision": 0.6901,
+          "recall": 0.8735,
+          "f1": 0.771,
+          "char_recall": 0.9048,
+          "char_precision": 0.9716,
+          "full_cover": 0.8745
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 752,
+          "precision": 0.5851,
+          "recall": 0.4427,
+          "f1": 0.504,
+          "char_recall": 0.5687,
+          "char_precision": 0.9394,
+          "full_cover": 0.4869
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1082,
+          "precision": 0.6867,
+          "recall": 0.7103,
+          "f1": 0.6983,
+          "char_recall": 0.7628,
+          "char_precision": 0.9488,
+          "full_cover": 0.7333
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 380,
+          "precision": 0.6184,
+          "recall": 0.5875,
+          "f1": 0.6026,
+          "char_recall": 0.7087,
+          "char_precision": 0.9932,
+          "full_cover": 0.595
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 571,
+          "precision": 0.606,
+          "recall": 0.6179,
+          "f1": 0.6119,
+          "char_recall": 0.7349,
+          "char_precision": 0.9516,
+          "full_cover": 0.65
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 238,
+          "precision": 0.0042,
+          "recall": 0.0083,
+          "f1": 0.0056,
+          "char_recall": 0.7134,
+          "char_precision": 1.0,
+          "full_cover": 0.0083
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 161,
+          "precision": 0.2733,
+          "recall": 0.3667,
+          "f1": 0.3132,
+          "char_recall": 0.7721,
+          "char_precision": 0.9625,
+          "full_cover": 0.45
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1281,
+          "precision": 0.6901,
+          "recall": 0.8735,
+          "f1": 0.771,
+          "char_recall": 0.9048,
+          "char_precision": 0.9716,
+          "full_cover": 0.8745
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 752,
+          "precision": 0.5851,
+          "recall": 0.4427,
+          "f1": 0.504,
+          "char_recall": 0.5687,
+          "char_precision": 0.9394,
+          "full_cover": 0.4869
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 368,
+          "precision": 0.9946,
+          "recall": 1.0,
+          "f1": 0.9973,
+          "char_recall": 1.0,
+          "char_precision": 0.994,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 342,
+          "precision": 0.9766,
+          "recall": 0.9356,
+          "f1": 0.9557,
+          "char_recall": 0.9778,
+          "char_precision": 0.992,
+          "full_cover": 0.9804
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 270,
+          "precision": 0.4444,
+          "recall": 1.0,
+          "f1": 0.6153,
+          "char_recall": 1.0,
+          "char_precision": 0.8566,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 39,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0256,
+          "char_precision": 0.2332,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 405,
+          "precision": 0.9802,
+          "recall": 0.9778,
+          "f1": 0.979,
+          "char_recall": 0.9898,
+          "char_precision": 0.9976,
+          "full_cover": 0.9803
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 210,
+          "precision": 0.2857,
+          "recall": 0.1511,
+          "f1": 0.1977,
+          "char_recall": 0.2675,
+          "char_precision": 0.718,
+          "full_cover": 0.1914
+        }
+      }
+    },
+    "0.3|merged+cue": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 290,
+          "precision": 0.5552,
+          "recall": 0.6708,
+          "f1": 0.6076,
+          "char_recall": 0.9036,
+          "char_precision": 0.9844,
+          "full_cover": 0.7125
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2152,
+          "precision": 0.789,
+          "recall": 0.8465,
+          "f1": 0.8167,
+          "char_recall": 0.8879,
+          "char_precision": 0.9597,
+          "full_cover": 0.8903
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 710,
+          "precision": 0.9859,
+          "recall": 0.9682,
+          "f1": 0.977,
+          "char_recall": 0.9893,
+          "char_precision": 0.9931,
+          "full_cover": 0.9903
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 309,
+          "precision": 0.3883,
+          "recall": 0.5,
+          "f1": 0.4371,
+          "char_recall": 0.4979,
+          "char_precision": 0.8001,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 843,
+          "precision": 0.8482,
+          "recall": 0.8904,
+          "f1": 0.8688,
+          "char_recall": 0.9728,
+          "char_precision": 0.9315,
+          "full_cover": 0.9651
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1204,
+          "precision": 0.8073,
+          "recall": 0.9605,
+          "f1": 0.8773,
+          "char_recall": 0.9741,
+          "char_precision": 0.9735,
+          "full_cover": 0.9615
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 948,
+          "precision": 0.7658,
+          "recall": 0.7304,
+          "f1": 0.7477,
+          "char_recall": 0.7966,
+          "char_precision": 0.9424,
+          "full_cover": 0.8179
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1163,
+          "precision": 0.828,
+          "recall": 0.9207,
+          "f1": 0.8719,
+          "char_recall": 0.9367,
+          "char_precision": 0.9579,
+          "full_cover": 0.9551
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 371,
+          "precision": 0.9623,
+          "recall": 0.8925,
+          "f1": 0.9261,
+          "char_recall": 0.8961,
+          "char_precision": 0.9946,
+          "full_cover": 0.9
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 618,
+          "precision": 0.6117,
+          "recall": 0.675,
+          "f1": 0.6418,
+          "char_recall": 0.8066,
+          "char_precision": 0.9342,
+          "full_cover": 0.7625
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 158,
+          "precision": 0.5127,
+          "recall": 0.675,
+          "f1": 0.5828,
+          "char_recall": 0.9196,
+          "char_precision": 1.0,
+          "full_cover": 0.675
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 132,
+          "precision": 0.6061,
+          "recall": 0.6667,
+          "f1": 0.635,
+          "char_recall": 0.886,
+          "char_precision": 0.9671,
+          "full_cover": 0.75
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1204,
+          "precision": 0.8073,
+          "recall": 0.9605,
+          "f1": 0.8773,
+          "char_recall": 0.9741,
+          "char_precision": 0.9735,
+          "full_cover": 0.9615
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 948,
+          "precision": 0.7658,
+          "recall": 0.7304,
+          "f1": 0.7477,
+          "char_recall": 0.7966,
+          "char_precision": 0.9424,
+          "full_cover": 0.8179
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 368,
+          "precision": 0.9946,
+          "recall": 1.0,
+          "f1": 0.9973,
+          "char_recall": 1.0,
+          "char_precision": 0.994,
+          "full_cover": 1.0
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 342,
+          "precision": 0.9766,
+          "recall": 0.9356,
+          "f1": 0.9557,
+          "char_recall": 0.9778,
+          "char_precision": 0.992,
+          "full_cover": 0.9804
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 270,
+          "precision": 0.4444,
+          "recall": 1.0,
+          "f1": 0.6153,
+          "char_recall": 1.0,
+          "char_precision": 0.8566,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 39,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0256,
+          "char_precision": 0.2332,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 408,
+          "precision": 0.9926,
+          "recall": 0.9975,
+          "f1": 0.995,
+          "char_recall": 1.0,
+          "char_precision": 0.9976,
+          "full_cover": 1.0
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 435,
+          "precision": 0.7126,
+          "recall": 0.7809,
+          "f1": 0.7452,
+          "char_recall": 0.9434,
+          "char_precision": 0.8658,
+          "full_cover": 0.9295
+        }
+      }
+    },
+    "0.5|raw": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 710,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.5585,
+          "char_precision": 0.9798,
+          "full_cover": 0.0
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2180,
+          "precision": 0.5711,
+          "recall": 0.6206,
+          "f1": 0.5948,
+          "char_recall": 0.654,
+          "char_precision": 0.9717,
+          "full_cover": 0.6236
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 694,
+          "precision": 0.9986,
+          "recall": 0.9585,
+          "f1": 0.9781,
+          "char_recall": 0.9579,
+          "char_precision": 0.9996,
+          "full_cover": 0.9599
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 244,
+          "precision": 0.4918,
+          "recall": 0.5,
+          "f1": 0.4959,
+          "char_recall": 0.488,
+          "char_precision": 0.8574,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 532,
+          "precision": 0.8102,
+          "recall": 0.5367,
+          "f1": 0.6457,
+          "char_recall": 0.5838,
+          "char_precision": 0.9534,
+          "full_cover": 0.543
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1384,
+          "precision": 0.6308,
+          "recall": 0.8626,
+          "f1": 0.7287,
+          "char_recall": 0.8585,
+          "char_precision": 0.9799,
+          "full_cover": 0.8636
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 796,
+          "precision": 0.4673,
+          "recall": 0.3742,
+          "f1": 0.4156,
+          "char_recall": 0.4372,
+          "char_precision": 0.955,
+          "full_cover": 0.3793
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1071,
+          "precision": 0.6545,
+          "recall": 0.6702,
+          "f1": 0.6623,
+          "char_recall": 0.6725,
+          "char_precision": 0.9672,
+          "full_cover": 0.673
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 466,
+          "precision": 0.4442,
+          "recall": 0.5175,
+          "f1": 0.4781,
+          "char_recall": 0.6118,
+          "char_precision": 0.9987,
+          "full_cover": 0.52
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 643,
+          "precision": 0.5241,
+          "recall": 0.6018,
+          "f1": 0.5603,
+          "char_recall": 0.6586,
+          "char_precision": 0.9598,
+          "full_cover": 0.6054
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 399,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.5923,
+          "char_precision": 1.0,
+          "full_cover": 0.0
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 311,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.5213,
+          "char_precision": 0.9556,
+          "full_cover": 0.0
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1384,
+          "precision": 0.6308,
+          "recall": 0.8626,
+          "f1": 0.7287,
+          "char_recall": 0.8585,
+          "char_precision": 0.9799,
+          "full_cover": 0.8636
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 796,
+          "precision": 0.4673,
+          "recall": 0.3742,
+          "f1": 0.4156,
+          "char_recall": 0.4372,
+          "char_precision": 0.955,
+          "full_cover": 0.3793
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 363,
+          "precision": 1.0,
+          "recall": 0.9918,
+          "f1": 0.9959,
+          "char_recall": 0.9931,
+          "char_precision": 1.0,
+          "full_cover": 0.9918
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 331,
+          "precision": 0.997,
+          "recall": 0.9244,
+          "f1": 0.9593,
+          "char_recall": 0.9202,
+          "char_precision": 0.9992,
+          "full_cover": 0.9272
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 226,
+          "precision": 0.531,
+          "recall": 1.0,
+          "f1": 0.6937,
+          "char_recall": 1.0,
+          "char_precision": 0.8942,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 18,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0063,
+          "char_precision": 0.12,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 396,
+          "precision": 0.9848,
+          "recall": 0.9606,
+          "f1": 0.9725,
+          "char_recall": 0.971,
+          "char_precision": 0.9987,
+          "full_cover": 0.9631
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 136,
+          "precision": 0.3015,
+          "recall": 0.1033,
+          "f1": 0.1539,
+          "char_recall": 0.1663,
+          "char_precision": 0.7417,
+          "full_cover": 0.1134
+        }
+      }
+    },
+    "0.5|merged": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 388,
+          "precision": 0.0284,
+          "recall": 0.0458,
+          "f1": 0.0351,
+          "char_recall": 0.6148,
+          "char_precision": 0.9813,
+          "full_cover": 0.0667
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 1854,
+          "precision": 0.6775,
+          "recall": 0.6261,
+          "f1": 0.6508,
+          "char_recall": 0.6718,
+          "char_precision": 0.9723,
+          "full_cover": 0.6326
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 693,
+          "precision": 0.9986,
+          "recall": 0.9571,
+          "f1": 0.9774,
+          "char_recall": 0.9579,
+          "char_precision": 0.9995,
+          "full_cover": 0.9599
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 244,
+          "precision": 0.4918,
+          "recall": 0.5,
+          "f1": 0.4959,
+          "char_recall": 0.488,
+          "char_precision": 0.8574,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 529,
+          "precision": 0.8185,
+          "recall": 0.5392,
+          "f1": 0.6501,
+          "char_recall": 0.5841,
+          "char_precision": 0.9534,
+          "full_cover": 0.5455
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1217,
+          "precision": 0.7173,
+          "recall": 0.8626,
+          "f1": 0.7833,
+          "char_recall": 0.8766,
+          "char_precision": 0.9803,
+          "full_cover": 0.8636
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 637,
+          "precision": 0.6013,
+          "recall": 0.3853,
+          "f1": 0.4697,
+          "char_recall": 0.4548,
+          "char_precision": 0.9563,
+          "full_cover": 0.3974
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 965,
+          "precision": 0.7326,
+          "recall": 0.6759,
+          "f1": 0.7031,
+          "char_recall": 0.6849,
+          "char_precision": 0.9676,
+          "full_cover": 0.6797
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 368,
+          "precision": 0.5788,
+          "recall": 0.5325,
+          "f1": 0.5547,
+          "char_recall": 0.6347,
+          "char_precision": 0.9987,
+          "full_cover": 0.535
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 521,
+          "precision": 0.6449,
+          "recall": 0.6,
+          "f1": 0.6216,
+          "char_recall": 0.6809,
+          "char_precision": 0.9608,
+          "full_cover": 0.6143
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 232,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.6485,
+          "char_precision": 1.0,
+          "full_cover": 0.0
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 156,
+          "precision": 0.0705,
+          "recall": 0.0917,
+          "f1": 0.0797,
+          "char_recall": 0.5777,
+          "char_precision": 0.9592,
+          "full_cover": 0.1333
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1217,
+          "precision": 0.7173,
+          "recall": 0.8626,
+          "f1": 0.7833,
+          "char_recall": 0.8766,
+          "char_precision": 0.9803,
+          "full_cover": 0.8636
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 637,
+          "precision": 0.6013,
+          "recall": 0.3853,
+          "f1": 0.4697,
+          "char_recall": 0.4548,
+          "char_precision": 0.9563,
+          "full_cover": 0.3974
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 363,
+          "precision": 1.0,
+          "recall": 0.9918,
+          "f1": 0.9959,
+          "char_recall": 0.9931,
+          "char_precision": 1.0,
+          "full_cover": 0.9918
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 330,
+          "precision": 0.997,
+          "recall": 0.9216,
+          "f1": 0.9578,
+          "char_recall": 0.9202,
+          "char_precision": 0.9989,
+          "full_cover": 0.9272
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 226,
+          "precision": 0.531,
+          "recall": 1.0,
+          "f1": 0.6937,
+          "char_recall": 1.0,
+          "char_precision": 0.8942,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 18,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0063,
+          "char_precision": 0.12,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 396,
+          "precision": 0.9848,
+          "recall": 0.9606,
+          "f1": 0.9725,
+          "char_recall": 0.971,
+          "char_precision": 0.9987,
+          "full_cover": 0.9631
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 133,
+          "precision": 0.3233,
+          "recall": 0.1083,
+          "f1": 0.1622,
+          "char_recall": 0.1669,
+          "char_precision": 0.7424,
+          "full_cover": 0.1184
+        }
+      }
+    },
+    "0.5|merged+cue": {
+      "by_label": {
+        "ADDRESS": {
+          "gold": 240,
+          "pred": 284,
+          "precision": 0.5634,
+          "recall": 0.6667,
+          "f1": 0.6107,
+          "char_recall": 0.8809,
+          "char_precision": 0.9869,
+          "full_cover": 0.6875
+        },
+        "ANY": {
+          "gold": 2006,
+          "pred": 2036,
+          "precision": 0.8355,
+          "recall": 0.848,
+          "f1": 0.8417,
+          "char_recall": 0.867,
+          "char_precision": 0.972,
+          "full_cover": 0.8724
+        },
+        "DATE": {
+          "gold": 723,
+          "pred": 693,
+          "precision": 0.9986,
+          "recall": 0.9571,
+          "f1": 0.9774,
+          "char_recall": 0.9579,
+          "char_precision": 0.9995,
+          "full_cover": 0.9599
+        },
+        "ORGANIZATION": {
+          "gold": 240,
+          "pred": 244,
+          "precision": 0.4918,
+          "recall": 0.5,
+          "f1": 0.4959,
+          "char_recall": 0.488,
+          "char_precision": 0.8574,
+          "full_cover": 0.5
+        },
+        "PERSON": {
+          "gold": 803,
+          "pred": 815,
+          "precision": 0.8945,
+          "recall": 0.9078,
+          "f1": 0.9011,
+          "char_recall": 0.965,
+          "char_precision": 0.9523,
+          "full_cover": 0.9589
+        }
+      },
+      "by_lang": {
+        "en": {
+          "gold": 1012,
+          "pred": 1149,
+          "precision": 0.8425,
+          "recall": 0.9565,
+          "f1": 0.8959,
+          "char_recall": 0.9661,
+          "char_precision": 0.9821,
+          "full_cover": 0.9575
+        },
+        "hi": {
+          "gold": 994,
+          "pred": 887,
+          "precision": 0.8264,
+          "recall": 0.7374,
+          "f1": 0.7794,
+          "char_recall": 0.7621,
+          "char_precision": 0.9587,
+          "full_cover": 0.7857
+        }
+      },
+      "by_doc_type": {
+        "bank_statement": {
+          "gold": 1046,
+          "pred": 1090,
+          "precision": 0.8881,
+          "recall": 0.9254,
+          "f1": 0.9064,
+          "char_recall": 0.9216,
+          "char_precision": 0.9758,
+          "full_cover": 0.935
+        },
+        "id_card": {
+          "gold": 400,
+          "pred": 367,
+          "precision": 0.9782,
+          "recall": 0.8975,
+          "f1": 0.9361,
+          "char_recall": 0.8944,
+          "char_precision": 0.9991,
+          "full_cover": 0.9
+        },
+        "legal": {
+          "gold": 560,
+          "pred": 579,
+          "precision": 0.6459,
+          "recall": 0.6679,
+          "f1": 0.6567,
+          "char_recall": 0.7617,
+          "char_precision": 0.9416,
+          "full_cover": 0.7357
+        }
+      },
+      "by_label_and_lang": {
+        "ADDRESS|en": {
+          "gold": 120,
+          "pred": 154,
+          "precision": 0.5195,
+          "recall": 0.6667,
+          "f1": 0.584,
+          "char_recall": 0.8995,
+          "char_precision": 1.0,
+          "full_cover": 0.6667
+        },
+        "ADDRESS|hi": {
+          "gold": 120,
+          "pred": 130,
+          "precision": 0.6154,
+          "recall": 0.6667,
+          "f1": 0.64,
+          "char_recall": 0.8605,
+          "char_precision": 0.9722,
+          "full_cover": 0.7083
+        },
+        "ANY|en": {
+          "gold": 1012,
+          "pred": 1149,
+          "precision": 0.8425,
+          "recall": 0.9565,
+          "f1": 0.8959,
+          "char_recall": 0.9661,
+          "char_precision": 0.9821,
+          "full_cover": 0.9575
+        },
+        "ANY|hi": {
+          "gold": 994,
+          "pred": 887,
+          "precision": 0.8264,
+          "recall": 0.7374,
+          "f1": 0.7794,
+          "char_recall": 0.7621,
+          "char_precision": 0.9587,
+          "full_cover": 0.7857
+        },
+        "DATE|en": {
+          "gold": 366,
+          "pred": 363,
+          "precision": 1.0,
+          "recall": 0.9918,
+          "f1": 0.9959,
+          "char_recall": 0.9931,
+          "char_precision": 1.0,
+          "full_cover": 0.9918
+        },
+        "DATE|hi": {
+          "gold": 357,
+          "pred": 330,
+          "precision": 0.997,
+          "recall": 0.9216,
+          "f1": 0.9578,
+          "char_recall": 0.9202,
+          "char_precision": 0.9989,
+          "full_cover": 0.9272
+        },
+        "ORGANIZATION|en": {
+          "gold": 120,
+          "pred": 226,
+          "precision": 0.531,
+          "recall": 1.0,
+          "f1": 0.6937,
+          "char_recall": 1.0,
+          "char_precision": 0.8942,
+          "full_cover": 1.0
+        },
+        "ORGANIZATION|hi": {
+          "gold": 120,
+          "pred": 18,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": null,
+          "char_recall": 0.0063,
+          "char_precision": 0.12,
+          "full_cover": 0.0
+        },
+        "PERSON|en": {
+          "gold": 406,
+          "pred": 406,
+          "precision": 0.9975,
+          "recall": 0.9975,
+          "f1": 0.9975,
+          "char_recall": 1.0,
+          "char_precision": 0.9987,
+          "full_cover": 1.0
+        },
+        "PERSON|hi": {
+          "gold": 397,
+          "pred": 409,
+          "precision": 0.7922,
+          "recall": 0.8161,
+          "f1": 0.804,
+          "char_recall": 0.9272,
+          "char_precision": 0.9035,
+          "full_cover": 0.9169
+        }
+      }
+    }
+  },
+  "predictor": "gliner",
+  "model": "urchade/gliner_multi-v2.1",
+  "dataset": "synthetic_v1.jsonl",
+  "device": "cuda"
+}

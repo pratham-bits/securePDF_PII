@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import FeedbackCard from "../components/FeedbackCard.jsx";
 import { useAuth } from "../auth/useAuth.js";
 import "./Profile.css";
 
@@ -19,6 +19,7 @@ export default function Profile() {
         <dt>Email</dt>
         <dd>{user.email}</dd>
       </dl>
+      <FeedbackCard />
       <button type="button" className="btn" onClick={handleLogout}>
         Log out
       </button>

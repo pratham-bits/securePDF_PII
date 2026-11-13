@@ -37,3 +37,5 @@ ml/models/
 .vscode/
 pyrefly.toml
 pyrightconfig.json
+
+/reports
