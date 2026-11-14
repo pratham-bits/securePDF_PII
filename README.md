@@ -7,7 +7,7 @@ SecurePDF detects sensitive identifiers (Aadhaar, PAN, bank and card numbers and
 ![Landing screen](docs/images/LandingPage.png)
 ![User screen](docs/images/UserDashboard.png)
 ![Review screen](docs/images/ReviewPage.png)
-![Redaction screen](docs/images/RedactionReview.png)
+![Redaction screen](docs/images/ReadactionReview.png)
 
 ## Why it exists
 
