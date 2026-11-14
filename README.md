@@ -4,7 +4,10 @@
 
 SecurePDF detects sensitive identifiers (Aadhaar, PAN, bank and card numbers and more), lets you review every finding, and produces a PDF where the underlying text is actually removed, not just covered by a black box. A verification step re-opens the output and refuses to release it if any redacted value can still be extracted.
 
-![Review screen](docs/images/review.png)
+![Landing screen](docs/images/LandingPage.png)
+![User screen](docs/images/UserDashboard.png)
+![Review screen](docs/images/ReviewPage.png)
+![Redaction screen](docs/images/RedactionReview.png)
 
 ## Why it exists
 
