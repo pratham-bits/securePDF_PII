@@ -111,10 +111,6 @@ Detection of structured identifiers is rule-based and covered by unit tests, inc
 
 SecurePDF is assistive: it finds identifiers with well-defined formats and gives you a review step before anything is redacted. Free-text items such as names and addresses can be covered with manual boxes in this version. Uploads are limited to 30 pages and 20 MB.
 
-## Feedback
-
-Tried it? Tell me what to improve via the in-app feedback link.
-
 ## Licence
 
 AGPL-3.0 (PyMuPDF is AGPL-licensed).
