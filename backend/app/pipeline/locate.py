@@ -42,6 +42,23 @@ def locate(
     return boxes
 
 
+def snap_box(box: Box, words: list[Word], pad: float = 1.0) -> Box:
+    """Grow a hand-drawn box so it covers every word it touches, completely.
+
+    Redaction removes whole glyphs that touch a box, so a box ending mid-word
+    would leave fragments of that word behind and fail verification. The box
+    only ever grows; words are matched against the box plus the redaction pad.
+    """
+    x0, y0, x1, y1 = box.x0, box.y0, box.x1, box.y1
+    for w in words:
+        if w.page != box.page:
+            continue
+        if w.x1 > box.x0 - pad and w.x0 < box.x1 + pad and w.y1 > box.y0 - pad and w.y0 < box.y1 + pad:
+            x0, y0 = min(x0, w.x0), min(y0, w.y0)
+            x1, y1 = max(x1, w.x1), max(y1, w.y1)
+    return Box(box.page, x0, y0, x1, y1)
+
+
 def find_pii(words: list[Word]) -> list[Finding]:
     text, spans = build_text(words)
     return [Finding(d, locate(d, words, spans)) for d in detect_rules(text)]

@@ -7,6 +7,9 @@ from app.api.documents import _owned_document
 from app.db.session import get_db
 from app.models import AuditEvent, Document, Finding, User
 from app.schemas.finding import FindingOut, FindingUpdate, ManualBox
+from app.pipeline.extract import extract_page_words, open_pdf
+from app.pipeline.locate import Box, snap_box
+from app.services import storage
 from app.services.redaction import clear_output
 
 router = APIRouter(prefix="/documents/{document_id}/findings", tags=["review"])
@@ -34,6 +37,21 @@ def _discard_stale_output(db: Session, document: Document) -> None:
     if document.status == "redacted":
         clear_output(db, document)
         document.status = "ready"
+
+
+def _snapped(document: Document, body: ManualBox) -> dict:
+    """On pages with a text layer, grow the box to whole words (see snap_box)."""
+    box = body.model_dump()
+    modes = document.page_modes or []
+    if body.page >= len(modes) or modes[body.page] not in ("digital", "mixed"):
+        return box
+    if document.storage_key is None or document.wrapped_key is None:
+        return box
+    data = storage.read_decrypted(document.storage_key, document.wrapped_key, document.id)
+    with open_pdf(data) as pdf:
+        words = extract_page_words(pdf[body.page], body.page)
+    snapped = snap_box(Box(**box), words)
+    return {"page": snapped.page, "x0": snapped.x0, "y0": snapped.y0, "x1": snapped.x1, "y1": snapped.y1}
 
 
 @router.post("", response_model=FindingOut, status_code=status.HTTP_201_CREATED)
@@ -65,7 +83,7 @@ def add_manual_box(
         checksum_ok=None,
         decision="redact",
         page=body.page,
-        boxes=[body.model_dump()],
+        boxes=[_snapped(document, body)],
     )
     db.add(finding)
     _discard_stale_output(db, document)

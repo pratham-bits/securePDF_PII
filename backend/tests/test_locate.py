@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from app.pipeline.extract import Word, extract_words
-from app.pipeline.locate import build_text, find_pii
+from app.pipeline.locate import Box, build_text, find_pii, snap_box
 
 SAMPLE = Path(__file__).resolve().parents[2] / "samples" / "sample_digital_en.pdf"
 
@@ -51,3 +51,20 @@ def test_every_finding_has_at_least_one_box():
     findings = find_pii(extract_words(SAMPLE))
     assert findings
     assert all(f.boxes for f in findings)
+
+
+def test_snap_box_grows_to_cover_whole_words_it_touches():
+    words = [_w("Rajesh", 0), _w("Kumar", 30)]  # 10pt wide each
+    snapped = snap_box(Box(0, 4, 2, 6, 8), words)
+    assert (snapped.x0, snapped.x1) == (0, 10)
+
+
+def test_snap_box_leaves_untouched_words_and_other_pages_alone():
+    words = [_w("a", 0), _w("b", 50), _w("c", 3, page=1)]
+    snapped = snap_box(Box(0, 1, 1, 9, 9), words)
+    assert (snapped.x0, snapped.x1) == (0, 10)
+
+
+def test_snap_box_never_shrinks_a_box_with_no_words_under_it():
+    box = Box(0, 100, 100, 150, 120)
+    assert snap_box(box, [_w("a", 0)]) == box

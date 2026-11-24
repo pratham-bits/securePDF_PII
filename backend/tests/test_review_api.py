@@ -98,7 +98,7 @@ def test_a_manual_box_is_added_as_a_redaction(client, db_session):
     assert body["entity_type"] == "MANUAL"
     assert body["tier"] == "manual"
     assert body["decision"] == "redact"
-    assert body["boxes"][0]["x1"] == 200
+    assert body["boxes"][0]["x1"] >= 200  # may grow to whole words
     assert len(client.get(_url(document_id)).json()) == 7
 
 
@@ -149,3 +149,21 @@ def test_audit_events_have_no_column_for_document_content():
         "entity_type",
         "created_at",
     }
+
+
+def test_a_manual_box_is_snapped_to_whole_words_and_redacts_cleanly(client, db_session):
+    from app.pipeline.extract import extract_words
+    from app.pipeline.locate import Box
+    from app.pipeline.redact import redact_bytes, verify_redaction
+
+    document_id = _ready_document(client, db_session)
+    target = next(w for w in extract_words(SAMPLE) if len(w.text) >= 5)
+    mid = (target.x0 + target.x1) / 2
+    # a box covering only the left half of one word
+    box = {"page": 0, "x0": target.x0 - 0.5, "y0": target.y0 + 2,
+           "x1": mid, "y1": target.y1 - 2}
+    body = client.post(_url(document_id), json=box).json()
+    saved = body["boxes"][0]
+    assert saved["x0"] <= target.x0 and saved["x1"] >= target.x1
+    out = redact_bytes(SAMPLE.read_bytes(), [Box(**saved)])
+    assert verify_redaction(out, [Box(**saved)]) == []
