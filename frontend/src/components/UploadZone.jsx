@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 
+import { useConfig } from '../lib/useConfig.js'
 import './UploadZone.css'
 
-const MAX_MB = 20 // mirrors the server limit; the server is the real authority
-
 export default function UploadZone({ onFile, disabled }) {
+  // Mirrors the server limits; the server is the real authority.
+  const { max_upload_mb: MAX_MB, max_pages: maxPages } = useConfig()
   const inputRef = useRef(null)
   const [dragging, setDragging] = useState(false)
   const [error, setError] = useState('')
@@ -69,7 +70,7 @@ export default function UploadZone({ onFile, disabled }) {
           onChange={handleChange}
         />
         <p className="upload__hint">
-          PDF only, up to {MAX_MB} MB and 30 pages. Scanned PDFs are supported.
+          PDF only, up to {MAX_MB} MB and {maxPages} pages. Scanned PDFs are supported.
         </p>
       </div>
       {error && (

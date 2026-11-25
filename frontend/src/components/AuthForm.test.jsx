@@ -1,8 +1,10 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Route, Routes } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { api } from "../api/client.js";
+import { resetConfigCache } from "../api/config.js";
 import { renderWithAuth } from "../test/renderWithAuth.jsx";
 import AuthForm from "./AuthForm.jsx";
 
@@ -112,5 +114,64 @@ describe("AuthForm (register)", () => {
       "a@example.com",
       "correct-horse-battery",
     );
+  });
+});
+
+
+describe("AuthForm (invite code)", () => {
+  beforeEach(() => {
+    resetConfigCache();
+    vi.restoreAllMocks();
+  });
+
+  async function fillRegister() {
+    await userEvent.type(screen.getByLabelText("Email"), "a@example.com");
+    await userEvent.type(
+      screen.getByLabelText(/^Password/),
+      "correct-horse-battery",
+    );
+    await userEvent.type(
+      screen.getByLabelText("Confirm password"),
+      "correct-horse-battery",
+    );
+  }
+
+  it("asks for the invite code when the server requires one", async () => {
+    vi.spyOn(api, "get").mockResolvedValue({ invite_required: true });
+    const register = vi.fn().mockResolvedValue({});
+    renderForm("register", { auth: { register } });
+    const field = await screen.findByLabelText(/^Invite code/);
+    await fillRegister();
+    await userEvent.type(field, " tester-2026 ");
+    await userEvent.click(screen.getByRole("button", { name: "Create account" }));
+    expect(register).toHaveBeenCalledWith(
+      "a@example.com",
+      "correct-horse-battery",
+      "tester-2026",
+    );
+  });
+
+  it("hides the field when registration is open", async () => {
+    const get = vi.spyOn(api, "get").mockResolvedValue({ invite_required: false });
+    renderForm("register");
+    await waitFor(() => expect(get).toHaveBeenCalled());
+    expect(screen.queryByLabelText(/^Invite code/)).not.toBeInTheDocument();
+  });
+
+  it("never shows the field on the login form", async () => {
+    vi.spyOn(api, "get").mockResolvedValue({ invite_required: true });
+    renderForm("login");
+    await waitFor(() => expect(api.get).toHaveBeenCalled());
+    expect(screen.queryByLabelText(/^Invite code/)).not.toBeInTheDocument();
+  });
+
+  it("shows the server message when a code is wrong or attempts are throttled", async () => {
+    vi.spyOn(api, "get").mockResolvedValue({ invite_required: true });
+    const register = vi.fn().mockRejectedValue(new Error("Invalid invite code"));
+    renderForm("register", { auth: { register } });
+    await userEvent.type(await screen.findByLabelText(/^Invite code/), "nope");
+    await fillRegister();
+    await userEvent.click(screen.getByRole("button", { name: "Create account" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Invalid invite code");
   });
 });

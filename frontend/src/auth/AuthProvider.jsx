@@ -39,8 +39,10 @@ export default function AuthProvider({ children }) {
   }, [])
 
   const register = useCallback(
-    async (email, password) => {
-      await api.post('/auth/register', { email, password })
+    async (email, password, inviteCode) => {
+      const payload = { email, password }
+      if (inviteCode) payload.invite_code = inviteCode
+      await api.post('/auth/register', payload)
       return login(email, password)
     },
     [login],

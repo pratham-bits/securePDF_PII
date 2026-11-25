@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
+import { describeRetention, useConfig } from "../lib/useConfig.js";
 import "./Content.css";
 
 export default function Privacy() {
+  const { retention_hours: retentionHours } = useConfig();
   return (
     <article className="content">
       <h1>How we handle your data</h1>
@@ -24,8 +26,8 @@ export default function Privacy() {
             the page.
           </li>
           <li>
-            Files are deleted automatically after a short time (12 hours by
-            default). You can also delete a document yourself at any time.
+            Files are deleted automatically after {describeRetention(retentionHours)}.
+            You can also delete a document yourself at any time.
           </li>
           <li>
             When a document is deleted, its encryption keys are erased first, so

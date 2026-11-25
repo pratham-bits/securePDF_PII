@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { api } from "../api/client.js";
+import { resetConfigCache } from "../api/config.js";
 import App from "../App.jsx";
 import { renderWithAuth } from "../test/renderWithAuth.jsx";
 
@@ -45,5 +47,29 @@ describe("Content pages", () => {
     expect(
       screen.getAllByRole("link", { name: "how we handle your data" })[0],
     ).toHaveAttribute("href", "/privacy");
+  });
+});
+
+
+describe("Privacy page retention", () => {
+  beforeEach(() => {
+    resetConfigCache();
+    vi.restoreAllMocks();
+  });
+
+  it("states the retention time the server actually uses", async () => {
+    vi.spyOn(api, "get").mockResolvedValue({ retention_hours: 2 });
+    renderWithAuth(<App />, { route: "/privacy" });
+    expect(
+      await screen.findByText(/deleted automatically after 2 hours/),
+    ).toBeInTheDocument();
+  });
+
+  it("does not guess a number when the server cannot be reached", async () => {
+    vi.spyOn(api, "get").mockRejectedValue(new Error("down"));
+    renderWithAuth(<App />, { route: "/privacy" });
+    expect(
+      await screen.findByText(/deleted automatically after a short time/),
+    ).toBeInTheDocument();
   });
 });

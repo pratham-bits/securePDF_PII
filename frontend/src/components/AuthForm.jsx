@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 
 import { useAuth } from '../auth/useAuth.js'
+import { useConfig } from '../lib/useConfig.js'
 import './AuthForm.css'
 
 const MIN_PASSWORD = 10
@@ -28,10 +29,12 @@ export default function AuthForm({ mode }) {
   const location = useLocation()
   const copy = COPY[mode]
   const isRegister = mode === 'register'
+  const { invite_required: inviteRequired } = useConfig()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
+  const [invite, setInvite] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -51,7 +54,12 @@ export default function AuthForm({ mode }) {
     setSubmitting(true)
     try {
       if (isRegister) {
-        await register(email.trim(), password)
+        const code = invite.trim()
+        if (code) {
+          await register(email.trim(), password, code)
+        } else {
+          await register(email.trim(), password)
+        }
       } else {
         await login(email.trim(), password)
       }
@@ -120,6 +128,25 @@ export default function AuthForm({ mode }) {
               value={confirm}
               onChange={(event) => setConfirm(event.target.value)}
             />
+          </label>
+        )}
+
+        {isRegister && inviteRequired && (
+          <label className="field">
+            <span className="field__label">Invite code</span>
+            <input
+              className="input"
+              type="text"
+              name="invite"
+              autoComplete="off"
+              required
+              maxLength={128}
+              value={invite}
+              onChange={(event) => setInvite(event.target.value)}
+            />
+            <span className="field__hint">
+              SecurePDF is in a private beta. Use the code you were given.
+            </span>
           </label>
         )}
 
